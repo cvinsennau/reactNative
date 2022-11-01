@@ -18,6 +18,7 @@ class Login extends Component{
             .then (res => {
                 this.props.navigation.navigate('HomeMenu')
             })
+
             .catch(error => console.log(error))
     }
 
@@ -35,6 +36,7 @@ class Login extends Component{
                     <TextInput style={styles.input} 
                         placeholder='password'
                         keyboardType='default'
+                        secureTextEntry={true}
                         onChangeText={ text => this.setState({pass:text}) }
                         value={this.state.pass}
                     /> 

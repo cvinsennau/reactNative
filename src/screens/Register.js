@@ -11,13 +11,14 @@ class Register extends Component{
             pass: '',
             userName: '',
             bio: '',
-            error: '',
+            errors: '',
         }
     }
 
     registerUser(email, pass, userName, bio){
+
         //Registrar en firebase y si el registro sale bien redireccionar a Login
-        auth.createUserWithEmailAndPassword(email,pass,userName)
+        auth.createUserWithEmailAndPassword(email,pass)
             .then (res => {
 
                 db.collection('users').add({
@@ -33,13 +34,16 @@ class Register extends Component{
                         pass:'',
                         userName:'',
                         bio:'',
-                        error:''                        
+                        errors:''                        
                     })
+                    
+                this.props.navigation.navigate('Login')
 
-                    this.props.navigation.navigate('HomeMenu')
                 })
 
-                this.props.navigation.navigate('Login')
+                //equivalente a res.redirect
+                .catch(error => console.log(error))    
+
             })
             .catch(error => console.log(error))
     }
@@ -62,26 +66,25 @@ class Register extends Component{
                     placeholder='Contraseña'
                     keyboardType='default'
                     secureTextEntry={true}
-                    onChangeText={ text => this.setState({password:text}) }
-                    value={this.state.password}/>
+                    onChangeText={ text => this.setState({pass:text}) }
+                    value={this.state.pass}/>
 
                 <TextInput style={styles.input}
                     placeholder='Nombre de usuario'
                     keyboardType='default'
-                    onChangeText={ text => this.setState({username:text}) }
-                    value={this.state.username}/>
+                    onChangeText={ text => this.setState({userName:text}) }
+                    value={this.state.userName}/>
 
                 <TextInput style={styles.input}
                     placeholder='Mini bio'
                     keyboardType='default'
-                    multiline={true}
                     onChangeText={ text => this.setState({bio:text}) }
                     value={this.state.bio} />
                 
                 </View>
                       
 
-                <TouchableOpacity style={styles.button} onPress={()=>this.registerUser(this.state.email, this.state.pass, this.state.userName)}>
+                <TouchableOpacity style={styles.button} onPress={()=>this.registerUser(this.state.email, this.state.pass, this.state.userName,this.state.bio)}>
                     <Text>Registrarme</Text>
                 </TouchableOpacity>
 
