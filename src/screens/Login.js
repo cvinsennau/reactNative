@@ -3,8 +3,8 @@ import {auth} from '../firebase/config';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 
 class Login extends Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             email: '',
             pass: '',
@@ -12,7 +12,14 @@ class Login extends Component{
         }
     }
 
+    //ESTO SACARLO ANTES DE LA ENTREGA - ES SOLO PARA ENTRAR A HOME SIN REGISTRARSE!!!
+    componentDidMount(){
+        this.props.navigation.navigate('HomeMenu')
+    }
+
+
     loginUser(email,pass){
+    
         //Registrar en firebase y si el registro sale bien redireccionar a Home
         auth.signInWithEmailAndPassword(email,pass)
             .then (res => {

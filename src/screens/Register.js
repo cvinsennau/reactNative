@@ -11,11 +11,12 @@ class Register extends Component{
             pass: '',
             userName: '',
             bio: '',
+            photo:'',
             errors: '',
         }
     }
 
-    registerUser(email, pass, userName, bio){
+    registerUser(email,pass,userName,bio,photo){
 
         //Registrar en firebase y si el registro sale bien redireccionar a Login
         auth.createUserWithEmailAndPassword(email,pass)
@@ -25,6 +26,7 @@ class Register extends Component{
                     owner: email,
                     userName: userName,
                     bio: bio,
+                    photo: photo,
                     createdAt: Date.now()
                 })
 
@@ -81,10 +83,16 @@ class Register extends Component{
                     onChangeText={ text => this.setState({bio:text}) }
                     value={this.state.bio} />
                 
+                <TextInput style={styles.input}
+                    placeholder='Photo'
+                    keyboardType='default'
+                    onChangeText={ text => this.setState({photo:text}) }
+                    value={this.state.photo} />
+                
                 </View>
                       
 
-                <TouchableOpacity style={styles.button} onPress={()=>this.registerUser(this.state.email, this.state.pass, this.state.userName,this.state.bio)}>
+                <TouchableOpacity style={styles.button} onPress={()=>this.registerUser(this.state.email, this.state.pass, this.state.userName,this.state.bio,this.state.photo)}>
                     <Text>Registrarme</Text>
                 </TouchableOpacity>
 
