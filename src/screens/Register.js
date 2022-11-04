@@ -80,6 +80,8 @@ class Register extends Component{
                 <TextInput style={styles.input}
                     placeholder='Mini bio'
                     keyboardType='default'
+                    multiline
+                    numberOfLines={4}
                     onChangeText={ text => this.setState({bio:text}) }
                     value={this.state.bio} />
                 
