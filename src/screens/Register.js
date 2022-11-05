@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {auth,db} from '../firebase/config';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
 
 class Register extends Component{
@@ -92,13 +92,18 @@ class Register extends Component{
                     value={this.state.photo} />
                 
                 </View>
-                      
 
-                <TouchableOpacity style={styles.button} onPress={()=>this.registerUser(this.state.email, this.state.pass, this.state.userName,this.state.bio,this.state.photo)}>
-                    <Text>Registrarme</Text>
-                </TouchableOpacity>
+                {this.state.email =="" || this.state.pass =="" || this.state.userName == "" ? 
+                    <TouchableOpacity>
+                        <Text style={styles.buttonError}>Registrarme</Text>
+                    </TouchableOpacity>
+                :
+                    <TouchableOpacity onPress={ () => this.registerUser(this.state.email, this.state.pass, this.state.userName,this.state.bio,this.state.photo)}>
+                        <Text style={styles.button}>Registrarme</Text>
+                    </TouchableOpacity>
+                }
 
-                <Text onPress={ () => this.props.navigation.navigate('Login')} >Ir a Login</Text>
+                <Text onPress={ () => this.props.navigation.navigate('Login')} >¿Ya tenés una cuenta? Iniciar Sesión</Text>
 
             </View>
         )
@@ -129,9 +134,20 @@ const styles = StyleSheet.create({
         margin: 10,
         textAlignVertical: 'center'
     },
-    button:{
-        backgroundColor:"#ccc",
+    buttonError:{
+        backgroundColor:"blue",
+        color: "white",
+        opacity: 0.4,
         borderRadius: 10,
+        alignItems:"center",
+        justifyContent:"center",
+        padding:10,
+        margin: 10
+    },
+    button:{
+        backgroundColor:"blue",
+        borderRadius: 10,
+        color: "white",
         alignItems:"center",
         justifyContent:"center",
         padding:10,

@@ -48,11 +48,17 @@ class Login extends Component{
                         value={this.state.pass}
                     /> 
 
-                    <TouchableOpacity style={styles.button} onPress={()=>this.loginUser(this.state.email, this.state.pass)}>
-                        <Text>Ingresar</Text>
-                    </TouchableOpacity>
+                    {this.state.email =="" || this.state.pass =="" ? 
+                        <TouchableOpacity>
+                            <Text style={styles.buttonError}>Ingresar</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress={()=> this.loginUser(this.state.email, this.state.pass)}>
+                            <Text style={styles.button}>Ingresar</Text>
+                        </TouchableOpacity>
+                    }
 
-                    <Text onPress={ () => this.props.navigation.navigate('Register')} >Ir a Registro</Text>
+                    <Text onPress={ () => this.props.navigation.navigate('Register')}>Ir a Registro</Text>
 
 
             </View>
@@ -79,10 +85,20 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 10
     },
-    button:{
-        backgroundColor:"#ccc",
+    buttonError:{
+        backgroundColor:"blue",
+        color: "white",
+        opacity: 0.4,
         borderRadius: 10,
-        width: '70%',
+        alignItems:"center",
+        justifyContent:"center",
+        padding:10,
+        margin: 10
+    },
+    button:{
+        backgroundColor:"blue",
+        borderRadius: 10,
+        color: "white",
         alignItems:"center",
         justifyContent:"center",
         padding:10,
