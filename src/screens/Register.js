@@ -16,12 +16,12 @@ class Register extends Component{
         }
     }
 
-    //Remember me. Observar la obtención de datos del usuario desde la base de datos y posibles cambios.
-    componentDidMount(){
-        auth.onAuthStateChanged(user => {
-            this.props.navigation.navigate('HomeMenu')
-        })
-    }
+    //Remember me
+    // componentDidMount(){
+    //     auth.onAuthStateChanged(user => {
+    //         this.props.navigation.navigate('HomeMenu')
+    //     })
+    // }
 
 
     registerUser(email,pass,userName,bio,photo){
@@ -48,15 +48,13 @@ class Register extends Component{
                     
                 this.props.navigation.navigate('Login')
 
-                })
-
-                //equivalente a res.redirect
-                .catch(error => console.log(error))    
-
+                })   
             })
 
             //Muestra el error
-            .catch(error => alert(error))
+            .catch(error => this.setState({
+                errors: error.message
+            }))
     }
 
 
@@ -70,40 +68,45 @@ class Register extends Component{
                 <TextInput style={styles.input}
                     placeholder='Email'
                     keyboardType='email-address'
-                    onChangeText={ text => this.setState({email:text}) }
+                    onChangeText={ text => this.setState({email:text, errors:''}) }
                     value={this.state.email} />
 
                 <TextInput style={styles.input}
                     placeholder='Contraseña'
                     keyboardType='default'
                     secureTextEntry={true}
-                    onChangeText={ text => this.setState({pass:text}) }
+                    onChangeText={ text => this.setState({pass:text, errors:''}) }
                     value={this.state.pass}/>
 
                 <TextInput style={styles.input}
                     placeholder='Nombre de usuario'
                     keyboardType='default'
-                    onChangeText={ text => this.setState({userName:text}) }
-                    value={this.state.userName}/>
+                    onChangeText={ text => this.setState({userName:text, errors:''}) }
+                    value={this.state.userName}
+                    />
 
                 <TextInput style={styles.input}
                     placeholder='Mini bio'
                     keyboardType='default'
                     multiline
                     numberOfLines={4}
-                    onChangeText={ text => this.setState({bio:text}) }
+                    onChangeText={ text => this.setState({bio:text, errors:''}) }
                     value={this.state.bio} />
-                
+
+                {/* ESTO SE HACE CON MY CAMERA */}
                 <TextInput style={styles.input}
                     placeholder='Photo'
                     keyboardType='default'
-                    onChangeText={ text => this.setState({photo:text}) }
+                    onChangeText={ text => this.setState({photo:text, errors:''}) }
                     value={this.state.photo} />
                 
                 </View>
+                <Text>{this.state.errors}</Text>
 
                 {this.state.email =="" || this.state.pass =="" || this.state.userName == "" ? 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.setState({
+                        errors: 'Por favor complete los campos de email, password y userName'
+                    })}>
                         <Text style={styles.buttonError}>Registrarme</Text>
                     </TouchableOpacity>
                 :
