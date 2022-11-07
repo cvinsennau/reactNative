@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {auth,db} from '../firebase/config';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 
 
 class Register extends Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             email: '',
             pass: '',
@@ -16,8 +16,15 @@ class Register extends Component{
         }
     }
 
-    registerUser(email,pass,userName,bio,photo){
+    //Remember me. Observar la obtención de datos del usuario desde la base de datos y posibles cambios.
+    componentDidMount(){
+        auth.onAuthStateChanged(user => {
+            this.props.navigation.navigate('HomeMenu')
+        })
+    }
 
+
+    registerUser(email,pass,userName,bio,photo){
         //Registrar en firebase y si el registro sale bien redireccionar a Login
         auth.createUserWithEmailAndPassword(email,pass)
             .then (res => {
@@ -47,7 +54,9 @@ class Register extends Component{
                 .catch(error => console.log(error))    
 
             })
-            .catch(error => console.log(error))
+
+            //Muestra el error
+            .catch(error => alert(error))
     }
 
 

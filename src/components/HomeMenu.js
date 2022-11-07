@@ -4,19 +4,41 @@ import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import NewPost from '../screens/NewPost';
 
+import { FontAwesome } from '@expo/vector-icons'
+
 const Tab = createBottomTabNavigator();
 
 function HomeMenu(){
     return(
       <Tab.Navigator
 
-      screenOptions={{
-        headerShown: false
-      }}>
+      
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false
+        }}>
 
-        <Tab.Screen name="Home" component={ Home } />
-        <Tab.Screen name="Mi Perfil" component={ Profile } />
-        <Tab.Screen name="Crear Posteo" component={ NewPost } />
+
+        <Tab.Screen 
+          name="Home" 
+          component={ Home } 
+          options={
+            {tabBarIcon: () => <FontAwesome name="home" size={26} />}
+          } />
+
+        <Tab.Screen 
+        name="Crear Posteo" 
+        component={ NewPost } 
+        options={
+          {tabBarIcon: () => <FontAwesome name="camera" size={26} />}
+        }/>
+
+        <Tab.Screen 
+          name="Mi Perfil" 
+          component={ Profile } 
+          options={
+            {tabBarIcon: () => <FontAwesome name="user-o" size={26} />}
+        }/>
 
     </Tab.Navigator>
     )   

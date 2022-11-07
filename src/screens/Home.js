@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import {auth, db} from '../firebase/config';
+import {db} from '../firebase/config';
 import {Text, View, FlatList} from 'react-native';
 //import Post from '../components/Post';
+
+
 
 class Home extends Component{
     constructor(props){
@@ -11,6 +13,7 @@ class Home extends Component{
         }
     }
 
+    //Esto no se que tan bien esta. Es del repo de Ale V
     componentDidMount(){
         db.collection('posts').where('owner','==','ale@dh.com').limit(2).onSnapshot(
             docs => {

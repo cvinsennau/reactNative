@@ -12,11 +12,6 @@ class Login extends Component{
         }
     }
 
-    //ESTO SACARLO ANTES DE LA ENTREGA - ES SOLO PARA ENTRAR A HOME SIN REGISTRO
-    componentDidMount(){
-        this.props.navigation.navigate('HomeMenu')
-    }
-
 
     loginUser(email,pass){
     

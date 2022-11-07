@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
-import {Text} from 'react-native'
+import {Text, TextInput, TouchableOpacity,View} from 'react-native';
+import {auth, db} from '../firebase/config';
+import MyCamera from '../components/MyCamera';
 
 class NewPost extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
+    constructor(){
+        super()
+        this.state={
+            photo:'',
+            textPost:'',
+            createdAt:'',
+            showCamera: true,
         }
     }
 
     render(){
         return(
-            <Text> Creat Posteo </Text>
-       
-    
+            <View>
+           
+            </View>
         )
-    }  
+    }
 }
+
 
 export default NewPost;
