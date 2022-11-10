@@ -19,11 +19,7 @@ class Register extends Component{
     //Remember me
     // componentDidMount(){
     //     auth.onAuthStateChanged(user => {
-<<<<<<< HEAD
-    //         this.props.navigation.navigate('Home')
-=======
     //         this.props.navigation.navigate('HomeMenu')
->>>>>>> 58fc05014d269001f4445c3093f7c5e548b8be6c
     //     })
     // }
 
@@ -57,12 +53,8 @@ class Register extends Component{
 
             //Muestra el error
             .catch(error => this.setState({
-<<<<<<< HEAD
                 errors: `Tienes un error: ${error.message}`
 
-=======
-                errors: error.message
->>>>>>> 58fc05014d269001f4445c3093f7c5e548b8be6c
             }))
     }
 
