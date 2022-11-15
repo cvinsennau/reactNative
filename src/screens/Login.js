@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Camara from '../components/MyCamera';
 import {auth} from '../firebase/config';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 

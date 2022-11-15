@@ -17,11 +17,11 @@ class Register extends Component{
     }
 
     //Remember me
-    // componentDidMount(){
-    //     auth.onAuthStateChanged(user => {
-    //         this.props.navigation.navigate('HomeMenu')
-    //     })
-    // }
+    componentDidMount(){
+         auth.onAuthStateChanged(user => {
+             this.props.navigation.navigate('Home')
+       })
+    }
 
 
     registerUser(email,pass,userName,bio,photo){
@@ -29,7 +29,7 @@ class Register extends Component{
         auth.createUserWithEmailAndPassword(email,pass)
             .then (res => {
 
-                db.collection('users').add({
+                db.collection('users').add({ //a esta coleccion de usuarios del data base le agrego un usuario nuevo
                     owner: email,
                     userName: userName,
                     bio: bio,

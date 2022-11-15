@@ -11,15 +11,18 @@ class Portada extends Component{
 
     render (){
         return(
-            <View> 
-                <Text onPress={ () => this.props.navigation.navigate ('Register')} style={styles.link}>Registrate</Text>
-                <Text onPress={ () => this.props.navigation.navigate ('Login')} style={styles.link}>Log In</Text>
+            <View style={styles.container}> 
+                <Text onPress={ () => this.props.navigation.navigate ('Register')} >Registrate</Text>
+                <Text onPress={ () => this.props.navigation.navigate ('Login')} >Log In</Text>
             </View>  
         )
     }
 
 }
 
+const styles = StyleSheet.create({
+})
 export default Portada
+
 
 //linea 15 "this.props.navigation.navigate " propiedad navigation y el metodo navigate de react native
