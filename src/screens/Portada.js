@@ -12,8 +12,8 @@ class Portada extends Component{
     render (){
         return(
             <View style={styles.container}> 
-                <Text onPress={ () => this.props.navigation.navigate ('Register')} >Registrate</Text>
-                <Text onPress={ () => this.props.navigation.navigate ('Login')} >Log In</Text>
+                <Text style={styles.text} onPress={ () => this.props.navigation.navigate ('Register')} >Registrate</Text>
+                <Text style={styles.text} onPress={ () => this.props.navigation.navigate ('Login')} >Log In</Text>
             </View>  
         )
     }
@@ -21,6 +21,15 @@ class Portada extends Component{
 }
 
 const styles = StyleSheet.create({
+    container:{
+        textAlign:"center",
+        paddingHorizontal:10,
+        flex:1
+    },
+    text:{
+        fontSize:20,
+        margin: 10
+    },
 })
 export default Portada
 
