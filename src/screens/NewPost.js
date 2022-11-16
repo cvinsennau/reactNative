@@ -22,7 +22,7 @@ class NewPost extends Component {
                 db.collection('posteos').add({
                     creador: auth.currentUser.email, // el email de la persona que postep
                     image: this.state.foto, //es la url de la foto que me lo traje 
-                    description: this.state.descripcion, // es lo que escribio la persona en el input
+                    description: this.state.description, // es lo que escribio la persona en el input
                     likes: this.state.likes, //el largo del array de likes
                     coments: this.state.comentarios, //el largo del array de comentarios 
                     createdAt: Date.now()
@@ -69,7 +69,7 @@ class NewPost extends Component {
                             placeholder='escribe algo' //lo que te aparezca en gris
                             keyboardType='default'// 
                             onChangeText={ text => this.setState({ descripcion:text}) } //se fija que todo lo que vaya escribiendo la persona se vaya guardando en el estadp y lo va guardar en el value
-                            value={this.state.descripcion} // es el valor final del input,
+                            value={this.state.description} // es el valor final del input,
                         /> 
 
                     <TouchableOpacity onPress={ () => this.subirPost ()}> //
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         
-        fontSize: 22,
+        fontSize: 30,
         margin: 20
     },
     form:{

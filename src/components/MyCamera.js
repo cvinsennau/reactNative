@@ -56,8 +56,8 @@ class Camara extends Component{
     rechazar (){
 
         this.setState({
-            urlTemporal: '',
-            mostrarCamera: true
+            url: '',
+            showCamera: true
         })
     }
 
@@ -84,11 +84,12 @@ class Camara extends Component{
                             source={{uri: this.state.url}}
                             resizeMode='cover'
                         />
-                        <TouchableOpacity style={styles.button} onPress={()=>this.cancelar()}> 
-                            <Text>Cancelar</Text> 
-                        </TouchableOpacity>
+                        
                         <TouchableOpacity style={styles.button} onPress={()=>this.guardar()}>
                             <Text>Aceptar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={()=>this.cancelar()}> 
+                            <Text>Cancelar</Text> 
                         </TouchableOpacity>
                     </View>
                 
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 5,
         borderRadius: 4,
-        marginTop: 20
+        marginTo: 20
     },
     preview:
     {
