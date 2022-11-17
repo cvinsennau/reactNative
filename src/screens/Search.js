@@ -43,11 +43,11 @@ class Search extends Component {
         })
     }
 
-    irAPerfil(item){
+    GoToProfile(item){
         if (item.data.owner === auth.currentUser.email) {
-            this.props.navigation.navigate('MiPerfil')
+            this.props.navigation.navigate('MyProfile')
         } else {
-            this.props.navigation.navigate('Perfil', { email: item.data.owner })
+            this.props.navigation.navigate('Profile', { email: item.data.owner })
         }
     }     
 
@@ -72,7 +72,7 @@ class Search extends Component {
                     <FlatList
                             data={this.state.resultsOfSearch}
                             keyExtractor = { oneUser => oneUser.id.toString()}
-                            renderItem = {({ item }) => <Text onPress={() => this.irAPerfil(item)} > User:{item.data.userName} {item.data.owner}</Text>}
+                            renderItem = {({ item }) => <Text onPress={() => this.GoToProfile(item)} > User:{item.data.userName} {item.data.owner}</Text>}
                     />
                 }
             </View>
