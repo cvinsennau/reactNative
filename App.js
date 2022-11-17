@@ -16,7 +16,7 @@ function App() {
       <Stack.Screen name="Portada" options= {{ headerShown : false}}  component={ Portada} />
       <Stack.Screen name="Register" options= {{ headerShown : false}} component={ Register } />
       <Stack.Screen name="Login" options= {{ headerShown : false}} component={ Login } />
-      <Stack.Screen name="HomeMenu" component={ HomeMenu } />
+      <Stack.Screen name="HomeMenu" options= {{ headerShown : false}} component={ HomeMenu } />
 
       </Stack.Navigator>
     </NavigationContainer>

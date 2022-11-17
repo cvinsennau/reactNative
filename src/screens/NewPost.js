@@ -55,7 +55,7 @@ class NewPost extends Component {
     }
     render() {
         return (
-            <View style={styles.container}> //contenedor con view con logo
+            <View style={styles.container}> 
 
                 <Text style={styles.titulo}>Haz un post!</Text>
                 {

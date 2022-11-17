@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { auth} from '../firebase/config';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
 
 class Portada extends Component {
@@ -8,6 +9,14 @@ class Portada extends Component {
 
         }
     }
+
+
+   //Remember me
+    // componentDidMount() {
+    //     auth.onAuthStateChanged(user => {
+    //         this.props.navigation.navigate('HomeMenu')
+    //     })
+    // } 
 
     render() {
         return (
@@ -32,6 +41,3 @@ const styles = StyleSheet.create({
     },
 })
 export default Portada
-
-
-//linea 15 "this.props.navigation.navigate " propiedad navigation y el metodo navigate de react native

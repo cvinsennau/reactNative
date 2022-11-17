@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import Camara from '../components/MyCamera';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 
 class Register extends Component {
@@ -12,15 +13,10 @@ class Register extends Component {
             userName: '',
             bio: '',
             photo: '',
+            showCamera: false,
+            disabled: true,
             errors: '',
         }
-    }
-
-    //Remember me
-    componentDidMount() {
-        auth.onAuthStateChanged(user => {
-            this.props.navigation.navigate('Home')
-        })
     }
 
 
@@ -43,6 +39,7 @@ class Register extends Component {
                             pass: '',
                             userName: '',
                             bio: '',
+                            photo: '',
                             errors: ''
                         })
 
@@ -58,6 +55,13 @@ class Register extends Component {
             }))
     }
 
+    onImageUpload(url){
+        this.setState({
+            photo: url,
+            showCamera: false,
+        })
+        
+    }
 
     render() {
         return (
@@ -101,7 +105,20 @@ class Register extends Component {
                         onChangeText={text => this.setState({ photo: text, errors: '' })}
                         value={this.state.photo} />
 
+
+                    {
+                        this.state.showCamera ?
+                        <View style={{width: '100vw', heigth: '100vh'}}>
+                            <Camara onImageUpload={url => this.onImageUpload(url)}/> 
+                        </View> 
+                        :
+                        <TouchableOpacity style={styles.buttonCamera} onPress={()=> this.setState({showCamera:true})}>
+                            <Text>Subir foto de perfil</Text>
+                        </TouchableOpacity>
+                    }
+
                 </View>
+
                 <Text>{this.state.errors}</Text>
 
                 {this.state.email == "" || this.state.pass == "" || this.state.userName == "" ?
@@ -165,7 +182,14 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         padding: 10,
         margin: 10
-    }
+    },
+    buttonCamera: {
+        borderRadius: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 10,
+        margin: 10
+    },
 })
 
 export default Register;

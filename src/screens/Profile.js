@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+
 
 
 class Profile extends Component {
@@ -10,23 +12,40 @@ class Profile extends Component {
             userName: '',
             email: auth.currentUser.email,
             bio: '',
+            photo:'',
             posteos: []
         }
     }
+
 
     componentDidMount() {
         db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
             docs => {
                 docs.forEach((doc) => {
                     const data = doc.data();
-
                     this.setState({
                         userName: data.userName,
-                        bio: data.bio
+                        bio: data.bio,
                     });
                 });
             });
     };
+
+
+    //Editar data del perfil
+    // updateData(){
+    //     db.collection('users').where('owner', '==', auth.currentUser.email)
+    //     .doc(key)
+    //     .update({
+    //         userName: userName,
+    //         bio: bio,
+    //     })
+    //     .then(() => {
+    //         this.props.navigation.navigate('Profile')
+    //     })
+    // }
+
+    
 
     //Logout
     logout() {
@@ -37,32 +56,22 @@ class Profile extends Component {
     }
 
 
-    // editProfileData(){
-    //     db.collection("users")
-    //     .doc()
-    //     .update({
-    //         userName: userName,
-    //         bio: bio
-    //     })
-    // }
-
-
     render() {
         return (
-            <View style={styles.container}>
 
-                <View>
-                    <Text>{this.state.photo}</Text>
-                    <Text style={styles.title}>Mi Perfil</Text>
-                    <Text>{this.state.userName}</Text>
+            <ScrollView style={styles.scroll}>
+         
+                <View style={styles.container}>
+
+                    <Text style={styles.userNameText}>{this.state.userName}</Text>
                     <Text>{this.state.email}</Text>
                     <Text>{this.state.bio}</Text>
-                    <Text>{this.state.photo}</Text>
 
-                    <TouchableOpacity onPress={() => this.logout()}>
-                        <Text>Logout</Text>
-                    </TouchableOpacity>
+                    
+                    
                 </View>
+                
+                <Text>Cantidad de posteos: {this.state.posteos.length} </Text>
 
                 <View>
                     <Text>Posteos recientes</Text>
@@ -72,22 +81,45 @@ class Profile extends Component {
                         keyExtractor={onePost => onePost.id.toString()}
                         renderItem={({ item }) => <Post postData={item} />}
                     />
-                </View>
 
             </View>
+                    <TouchableOpacity onPress = {() => this.updateData()}>
+                       <Text>Editar</Text> 
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress = {() => this.eliminarPerfil()} >
+                        <Text style={styles.logout} >Borrar perfil</Text>
+                    </TouchableOpacity> 
+
+                    <TouchableOpacity onPress={() => this.logout()}>
+                        <Text>Logout</Text>
+                    </TouchableOpacity>
+
+            </ScrollView>
         )
     }
 }
 
 
 const styles = StyleSheet.create({
+    scroll: {
+        backgroundColor: '#FFF',
+      },
     container: {
-        paddingHorizontal: 10,
-        flex: 1
+        alignItems: 'center',
+        backgroundColor: '#FFF',
+        marginBottom: 10,
+        marginTop: 45,
     },
     title: {
         fontSize: 20,
         margin: 10
+    },
+    userNameText:{
+        color: '#5B5A5A',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
     }
 })
 
