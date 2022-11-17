@@ -3,8 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import NewPost from '../screens/NewPost';
+import Search from '../screens/Search';
 
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, Octicons } from '@expo/vector-icons'
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +40,14 @@ function HomeMenu(){
           options={
             {tabBarIcon: () => <FontAwesome name="user-o" size={26} />}
         }/>
+
+      <Tab.Screen 
+          name="Buscar" 
+          component={ Search } 
+          options={
+            {tabBarIcon: () => <Octicons name="search" size={26} />}
+        }/>
+
 
     </Tab.Navigator>
     )   

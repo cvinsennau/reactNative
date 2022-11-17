@@ -8,16 +8,14 @@ class Comments extends Component {
     super(props)
     this.state = {
         comentario: "",
-        comentarios: [            
-        ],
+        comentarios: [],
         PostId: this.props.route.params.id,
        
         }
     }
 
     componentDidMount(){
-        db.collection("posteos").doc(this.state.id)
-        .onSnapshot(
+        db.collection("posteos").doc(this.state.id).onSnapshot(
             docs => {
                 this.setState({
                     comentarios: docs.data().comentarios
@@ -27,8 +25,7 @@ class Comments extends Component {
     }
 
     UploadComments(comentario){
-        db.collection("posteos")
-        .doc(this.state.id)
+        db.collection("posteos").doc(this.state.id)
         .update({
             comentarios:
         })
