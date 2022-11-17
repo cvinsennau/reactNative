@@ -19,7 +19,7 @@ class NewPost extends Component {
 
     subirPost(){ //funcion que la informacion de ese posteo
           
-                db.collection('posteos').add({
+                db.collection('posts').add({
                     creador: auth.currentUser.email, // el email de la persona que postep
                     image: this.state.foto, //es la url de la foto que me lo traje 
                     description: this.state.description, // es lo que escribio la persona en el input
