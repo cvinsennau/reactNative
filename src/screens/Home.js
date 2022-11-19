@@ -4,7 +4,6 @@ import { Text, View, FlatList } from 'react-native';
 import Post from '../components/Post';
 
 
-
 class Home extends Component {
     constructor(props) {
         super(props)

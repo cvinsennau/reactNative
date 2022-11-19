@@ -1,7 +1,6 @@
 // cuando tenga esto lo exporto como camara
 import React, { Component } from 'react';
 import { Camera } from 'expo-camera';
-import { auth } from '../firebase/config';
 import { storage } from '../firebase/config'; //no es la base de datos, es un baul que tiene tu firebase donde se van a guardar todas mis fotos. dentro de lo que es firebase
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-
 
 
 class Profile extends Component {
@@ -29,9 +27,25 @@ class Profile extends Component {
                     });
                 });
             });
+
+        db.collection('posts').where('owner', '==', auth.currentUser.email).onSnapshot(
+            docs =>{
+                let posteos = [];
+                docs.forEach( doc => {
+                    posteos.push({
+                        id: doc.id,
+                        data: doc.data()
+                    })
+                    this.setState({
+                    posteos: posts,
+                    loading: false,
+                   })
+                })
+            }
+        )
     };
 
-
+    
     //Editar data del perfil
     // updateData(){
     //     db.collection('users').where('owner', '==', auth.currentUser.email)
@@ -56,7 +70,17 @@ class Profile extends Component {
     }
 
 
+    eliminarPerfil() {
+        auth.signOut()
+            .then(() => {
+                this.props.navigation.navigate('EliminarPerfil')
+            })
+    }
+
+
     render() {
+        console.log(auth.currentUser.email)
+        
         return (
 
             <ScrollView style={styles.scroll}>
@@ -83,12 +107,12 @@ class Profile extends Component {
                     />
 
             </View>
-                    <TouchableOpacity onPress = {() => this.updateData()}>
+                    {/* <TouchableOpacity onPress = {() => this.updateData()}>
                        <Text>Editar</Text> 
                     </TouchableOpacity>
-
-                    <TouchableOpacity onPress = {() => this.eliminarPerfil()} >
-                        <Text style={styles.logout} >Borrar perfil</Text>
+ */}
+                    <TouchableOpacity onPress = {() => this.eliminarPerfil(this.state.email)} >
+                        <Text >Borrar perfil</Text>
                     </TouchableOpacity> 
 
                     <TouchableOpacity onPress={() => this.logout()}>
