@@ -8,20 +8,23 @@ class Login extends Component {
         this.state = {
             email: '',
             pass: '',
-            error: '',
+            errors: '',
         }
     }
 
 
     loginUser(email, pass) {
-
         //Registrar en firebase y si el registro sale bien redireccionar a Home
         auth.signInWithEmailAndPassword(email, pass)
             .then(res => {
                 this.props.navigation.navigate('HomeMenu')
             })
 
-            .catch(error => console.log(error))
+            //Muestra el error
+            .catch(error => this.setState({
+                errors: `Tienes un error: ${error.message}`
+
+            }))
     }
 
     render() {
@@ -43,8 +46,13 @@ class Login extends Component {
                     value={this.state.pass}
                 />
 
+
+                <Text>{this.state.errors}</Text>
+
                 {this.state.email == "" || this.state.pass == "" ?
-                    <TouchableOpacity>
+                    <TouchableOpacity style={styles.errors} onPress={() => this.setState({
+                        errors: 'Por favor complete los campos de email y contraseña'
+                    })}>
                         <Text style={styles.buttonError}>Ingresar</Text>
                     </TouchableOpacity>
                     :

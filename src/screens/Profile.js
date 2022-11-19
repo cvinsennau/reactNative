@@ -88,8 +88,8 @@ class Profile extends Component {
                 <View style={styles.container}>
 
                     <Text style={styles.userNameText}>{this.state.userName}</Text>
-                    <Text>{this.state.email}</Text>
-                    <Text>{this.state.bio}</Text>
+                    <Text>Email: {this.state.email}</Text>
+                    <Text>Biografía: {this.state.bio}</Text>
 
                     
                     
@@ -112,7 +112,7 @@ class Profile extends Component {
                     </TouchableOpacity>
  */}
                     <TouchableOpacity onPress = {() => this.eliminarPerfil(this.state.email)} >
-                        <Text >Borrar perfil</Text>
+                        <Text>Borrar perfil</Text>
                     </TouchableOpacity> 
 
                     <TouchableOpacity onPress={() => this.logout()}>

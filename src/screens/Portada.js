@@ -21,8 +21,15 @@ class Portada extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Register')} >Registrate</Text>
-                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Login')} >Log In</Text>
+
+                <Text style={styles.title}>BeFake.</Text>
+
+                <View style={styles.buttons}>
+
+                    <Text style={styles.text} onPress={() => this.props.navigation.navigate('Register')} >Registrate</Text>
+                    <Text style={styles.text} onPress={() => this.props.navigation.navigate('Login')} >Ingresa</Text>
+
+                </View>
             </View>
         )
     }
@@ -33,11 +40,21 @@ const styles = StyleSheet.create({
     container: {
         textAlign: "center",
         paddingHorizontal: 10,
-        flex: 1
+        flex: 1,
+        justifyContent: 'space-between',
+        backgroundColor: 'black',
+    },
+    title: {
+        fontSize: 46,
+        fontWeight: 'bold',
+        margin: 10,
+        color: 'white'
     },
     text: {
         fontSize: 20,
-        margin: 10
+        margin: 20,
+        paddingBottom: 10,
+        color: 'white',
     },
 })
 export default Portada

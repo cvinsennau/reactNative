@@ -51,7 +51,22 @@ class Camara extends Component {
             .catch(e => console.log(e))
     }
 
-    
+    guardar(){
+        fetch(this.state.url)
+         .then(res=>res.blob())
+         .then(image =>{
+           const refStorage=storage.ref(`photos/${Date.now()}.jpg`)
+           refStorage.put(image)
+                .then(()=>{
+                   refStorage.getDownloadURL()
+                        .then(url => {
+                            this.props.onImageUpload(url);
+                         })
+                 })
+         })
+         .catch(e=>console.log(e))
+    }
+
     rechazar() {
         this.setState({
             url: '',

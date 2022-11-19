@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
-import { View, Text, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 
 
 class EliminarPerfil extends Component {
     constructor(props){
         super(props);
         this.state = {
-            email: '',
+            userName: '',
+            email: auth.currentUser.email,
             pass: '',
             error: '',
         }
     }
+
+    componentDidMount() {
+        db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
+            docs => {
+                docs.forEach((doc) => {
+                    const data = doc.data();
+                    this.setState({
+                        email: data.email,
+                        userName: data.userName,
+                    });
+                });
+            });
+
+    };
 
     eliminar(email, pass){
         auth.signInWithEmailAndPassword(email, pass)
@@ -23,25 +38,25 @@ class EliminarPerfil extends Component {
                 })
                     .catch(error => {
                         this.setState({error: 'Error'})
-                    })
-            }
+                })
+    }
 
 
     render(){
         return(
-            <View >
+            <View style={styles.container}>
 
-                <Text>Valide con tus datos para eliminar el perfil</Text>
+                <Text style={styles.title}>Para eliminar tu cuenta, validá que sos {this.state.userName}</Text>
 
                 <View>
-                    <TextInput 
+                    <TextInput style={styles.input}
                         placeholder= 'Email'
                         keyboardType= 'email-address'
                         onChangeText={ text => this.setState({email: text})}
                         value = {this.state.email}
                         
                     />
-                    <TextInput 
+                    <TextInput style={styles.input}
                         placeholder= 'Password'
                         keyboardType= 'default'
                         secureTextEntry = {true}
@@ -49,11 +64,16 @@ class EliminarPerfil extends Component {
                         value = {this.state.pass}
                     
                     />            
-                        <Text>{this.state.error}</Text>
+                    
+                    <Text>{this.state.error}</Text>
+
+
 
 
                 {this.state.email == "" || this.state.pass == "" ?
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.setState({
+                        errors: 'Por favor complete los campos de email y contraseña'
+                    })}>
                         <Text>Eliminar</Text>
                     </TouchableOpacity>
                     :
@@ -73,6 +93,26 @@ class EliminarPerfil extends Component {
         
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        textAlign: "center",
+        paddingHorizontal: 10,
+        flex: 1,
+    },
+    title:{
+        fontSize: 20,
+        margin: 10
+    },
+    input: {
+        backgroundColor: "white",
+        borderColor: "gray",
+        borderWidth: 1,
+        borderRadius: 10,
+        padding: 10,
+        margin: 10
+    },
+});
 
 
 export default EliminarPerfil;
