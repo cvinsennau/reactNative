@@ -72,7 +72,7 @@ class Search extends Component {
                     <FlatList
                             data={this.state.resultsOfSearch}
                             keyExtractor = { oneUser => oneUser.id.toString()}
-                            renderItem = {({ item }) => <Text onPress={() => this.GoToProfile(item)} > User:{item.data.userName} {item.data.owner}</Text>}
+                            renderItem = {({ item }) => <Text onPress={() => this.GoToProfile(item)} > {item.data.userName}</Text>}
                     />
                 }
             </View>

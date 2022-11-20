@@ -6,9 +6,10 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView }
 class Profile extends Component {
     constructor(props) {
         super(props)
+        
         this.state = {
             userName: '',
-            email: auth.currentUser.email,
+            email: "",
             bio: '',
             photo:'',
             posteos: []
@@ -17,6 +18,11 @@ class Profile extends Component {
 
 
     componentDidMount() {
+
+        console.log(auth.currentUser.email, "usuario");
+
+        this.setState({email: auth.currentUser.email});
+
         db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
             docs => {
                 docs.forEach((doc) => {
@@ -71,15 +77,12 @@ class Profile extends Component {
 
 
     eliminarPerfil() {
-        auth.signOut()
-            .then(() => {
-                this.props.navigation.navigate('EliminarPerfil')
-            })
+        this.props.navigation.navigate('EliminarPerfil')
+            
     }
 
 
     render() {
-        console.log(auth.currentUser.email)
         
         return (
 

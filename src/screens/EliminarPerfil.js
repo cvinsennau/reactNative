@@ -8,13 +8,15 @@ class EliminarPerfil extends Component {
         super(props);
         this.state = {
             userName: '',
-            email: auth.currentUser.email,
+            email: "",
             pass: '',
             error: '',
         }
     }
 
-    componentDidMount() {
+    componentDidMount() {                
+        this.setState({email: auth.currentUser.email});
+
         db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
             docs => {
                 docs.forEach((doc) => {
