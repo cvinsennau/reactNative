@@ -19,14 +19,17 @@ class Home extends Component {
                 //console.log(docs);
                 let posts = [];
                 docs.forEach(doc => {// por cada uno de los posteos pusheame el id y la data como objeto literal 
+                    console.log(doc.data(), "doc");
                     posts.push({
                         id: doc.id,
                         data: doc.data()
-                    })
-                    this.setState({ //tengo un array con todos los posteos y cada uno de esos posteos es un objeto literal 
-                        post: posts //al estado inicial de post (era una arrya vacio) le traje todos los posteos
-                    })
+                    })                    
                 })
+
+                this.setState({ //tengo un array con todos los posteos y cada uno de esos posteos es un objeto literal 
+                    post: posts //al estado inicial de post (era una arrya vacio) le traje todos los posteos
+                })
+
 
             }
         )

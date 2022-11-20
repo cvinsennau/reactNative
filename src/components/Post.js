@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import React, { Component, Dimensions } from 'react';
+import { Text, View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { auth, db } from '../firebase/config'; //auth componente para autenticar el firebase, chequear si existe un usuario o crear un usuario. db es data base
 import firebase from 'firebase';
 
@@ -7,13 +7,13 @@ class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cantidaddelikes: props.postData.data.like.length,
+            cantidaddelikes: props.postData.data.likes.length,
             milike: false
         }
     }
     componentDidMount( // quiero ver si el usuario ya likeo la foto o no entonces en el primer renderizado le mando esto
     ) {
-        if (this.props.postData.data.like.includes(auth.currentUser.email)) { this.setState({ milike: true }) } // si el usuario ya likeo el posteo que me aparezca milike true, es decir que ya este likeado y this.setState es justamente para modificar un esatdo ya establecido previamente
+        if (this.props.postData.data.likes.includes(auth.currentUser.email)) { this.setState({ milike: true }) } // si el usuario ya likeo el posteo que me aparezca milike true, es decir que ya este likeado y this.setState es justamente para modificar un esatdo ya establecido previamente
 
     }
     like() { // es un array
@@ -42,8 +42,15 @@ class Post extends Component {
     }
 
     render() {
+        { console.log(this.props.postData.data) }
         return (
-            <View>
+            
+            <View>            
+                <View>
+                    <Text>{this.props.postData.data.description}</Text>
+                    <Image source={{uri: this.props.postData.data.image}} style={styles.photo} resizeMode="cover"/>
+                </View>
+
                 {this.state.milike ?
                     <TouchableOpacity onPress={() => this.dislike()}>
                         <Text>No me gusta</Text>
@@ -58,6 +65,15 @@ class Post extends Component {
         )
     }
 }
+
+
+
+const styles= StyleSheet.create({
+    photo: {        
+        height: '40vh',
+        width:'40vw'
+    }
+})
 
 export default Post;
 
