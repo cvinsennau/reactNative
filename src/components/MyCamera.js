@@ -18,9 +18,10 @@ class Camara extends Component {
 
 
     componentDidMount(){ //en el primer renderizado quiero que me pregunte si se puede activar la camara
+        console.log(Camera, "Camera");
         Camera.requestCameraPermissionsAsync() // es un componente de react que tiene un metodo que me pide el request
             .then( () => this.setState({
-                permissions: true
+                allow: true
             }))
             .catch( e => console.log(e))
     }
@@ -101,6 +102,7 @@ class Camara extends Component {
                                 <TouchableOpacity style={styles.button} onPress={() => this.guardar()}>
                                     <Text>Aceptar</Text>
                                 </TouchableOpacity>
+                                
                                 <TouchableOpacity style={styles.button} onPress={() => this.cancelar()}>
                                     <Text>Cancelar</Text>
                                 </TouchableOpacity>

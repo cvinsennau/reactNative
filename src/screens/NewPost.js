@@ -21,10 +21,10 @@ class NewPost extends Component {
 
         db.collection('posts').add({
             creador: auth.currentUser.email, // el email de la persona que postep
-            image: this.state.foto, //es la url de la foto que me lo traje 
+            image: this.state.photo, //es la url de la foto que me lo traje 
             description: this.state.description, // es lo que escribio la persona en el input
             likes: this.state.likes, //el largo del array de likes
-            coments: this.state.comentarios, //el largo del array de comentarios 
+            coments: this.state.coments, //el largo del array de comentarios 
             createdAt: Date.now()
 
         }) //como add es un metodo asincronico le pido que cuando se cumpla, me traiga devuelta al estado inicial para que aparezca devuelta
@@ -68,7 +68,7 @@ class NewPost extends Component {
                                 <TextInput  //esto es un in put 
                                     placeholder='escribe algo' //lo que te aparezca en gris
                                     keyboardType='default'// 
-                                    onChangeText={text => this.setState({ descripcion: text })} //se fija que todo lo que vaya escribiendo la persona se vaya guardando en el estadp y lo va guardar en el value
+                                    onChangeText={text => this.setState({ description: text })} //se fija que todo lo que vaya escribiendo la persona se vaya guardando en el estadp y lo va guardar en el value
                                     value={this.state.description} // es el valor final del input,
                                 />
 
