@@ -47,8 +47,10 @@ class Post extends Component {
             
             <View>            
                 <View>
-                    <Text>{this.props.postData.data.description}</Text>
+                    <Text>{this.props.postData.data.description} {this.props.postData.data.user} ({this.state.cantidaddelikes})
+                    </Text>
                     <Image source={{uri: this.props.postData.data.image}} style={styles.photo} resizeMode="cover"/>
+                    
                 </View>
 
                 {this.state.milike ?

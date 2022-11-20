@@ -44,7 +44,8 @@ class Home extends Component {
                 <FlatList //se escrolee
                     data={this.state.post}
                     keyExtractor={onePost => onePost.id.toString()} //es como el api key del posteo
-                    renderItem={({ item }) => <Post postData={item} />}
+                    renderItem={({ item }) => <Post postData={item} navigation={this.props.navigation}/>}
+                    
                 />
 
             </View>
