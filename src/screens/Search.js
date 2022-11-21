@@ -57,6 +57,8 @@ class Search extends Component {
         return(
 
             <View style={styles.container}>
+                <Text style={styles.title}> Search in Be Fake.</Text>
+
                 <View style={clicked ? styles.searchBar__clicked : styles.searchBar__unclicked}> 
 
                     {/* search Icon */}
@@ -115,6 +117,13 @@ const styles = StyleSheet.create({
         width: "90%",
     
       },
+      title: {
+        fontSize: 46,
+        fontWeight: 'bold',
+        marginTop: 20,
+        margin: 10,
+        color: 'black'
+    },
       searchBar__unclicked: {
         padding: 10,
         flexDirection: "row",

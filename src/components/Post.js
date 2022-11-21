@@ -53,15 +53,16 @@ class Post extends Component {
             <View style={styles.container} >  
 
                 {this.props.postData.data.creador == auth.currentUser.email ?
-                    <Text onPress={() => this.props.navigation.navigate('Profile', {id: this.props.id})}> {this.props.postData.data.creador}</Text>
+                    <Text style={styles.nombre} onPress={() => this.props.navigation.navigate('Profile', {id: this.props.id})}> User: {this.props.postData.data.creador}</Text>
                     :
-                    <Text onPress={() => this.props.navigation.navigate('PerfilAjeno', { email: this.props.postData.data.creador })}> {this.props.postData.data.creador}</Text>
+                    <Text style={styles.nombre} onPress={() => this.props.navigation.navigate('PerfilAjeno', { email: this.props.postData.data.creador })}> User: {this.props.postData.data.creador}</Text>
 
                 }
 
                 <View>
-                    <Text>{this.props.postData.data.description} {this.props.postData.data.user} ({this.state.cantidaddelikes})
-                    </Text>
+                    <Text style={styles.description}>description: {this.props.postData.data.description}  </Text>
+                    {/*<Text>{this.props.postData.data.user} </Text>    no muestra user debe esatr mal creo */}
+                    <Text> ({this.state.cantidaddelikes}) </Text>
                     <Image source={{uri: this.props.postData.data.image}} style={styles.photo} resizeMode="cover"/>
                     
                 </View>
@@ -91,6 +92,23 @@ const styles= StyleSheet.create({
         alignItems: "center",
         height: "100%",
         textAlign: "center"
+        
+      },
+      description:{
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: 20,
+        margin: 10,
+        color: 'black',
+      },
+      nombre:{
+        fontSize: 23,
+        fontWeight: 'bold',
+        marginTop: 20,
+        margin: 10,
+        color: 'black',
+        underline: {textDecorationLine: 'underline'},
+        
       },
     button: {
         alignItems: 'center',
@@ -113,7 +131,7 @@ const styles= StyleSheet.create({
     photo: {        
         height: '40vh',
         width:'40vw',
-        borderRadius:"30"
+        borderRadius: 45,
     }
 })
 
