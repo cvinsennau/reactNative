@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-
+import React, { Component, Dimensions } from 'react';
+import { Text, View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { auth, db } from '../firebase/config'; //auth componente para autenticar el firebase, chequear si existe un usuario o crear un usuario. db es data base
 import firebase from 'firebase';
 
@@ -8,15 +7,19 @@ class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cantidaddelikes: props.postData.data.like.length,
+            cantidaddelikes: props.postData.data.likes.length,
             milike: false
         }
     }
+
     componentDidMount( // quiero ver si el usuario ya likeo la foto o no entonces en el primer renderizado le mando esto
     ) {
-        if (this.props.postData.data.like.includes(auth.currentUser.email)) { this.setState({ milike: true }) } // si el usuario ya likeo el posteo que me aparezca milike true, es decir que ya este likeado y this.setState es justamente para modificar un esatdo ya establecido previamente
-
+        if (this.props.postData.data.likes.includes(auth.currentUser.email)) { 
+            this.setState({ 
+                milike: true }) 
+            } // si el usuario ya likeo el posteo que me aparezca milike true, es decir que ya este likeado y this.setState es justamente para modificar un esatdo ya establecido previamente
     }
+
     like() { // es un array
         db.collection("posts").doc(this.props.postData.id) //identificar el posteos
             .update({ //lo actualizo agreganfo mi like
@@ -29,6 +32,7 @@ class Post extends Component {
             )
             .catch(e => console.log(e))
     }
+
     dislike() { // es un array
         db.collection("posts").doc(this.props.postData.id) //identificar el posteos
             .update({ //lo actualizo agreganfo mi like
@@ -43,15 +47,32 @@ class Post extends Component {
     }
 
     render() {
+        { console.log(this.props.postData.data) }
         return (
-            <View>
+            
+            <View style={styles.container} >  
+
+                {this.props.postData.data.creador == auth.currentUser.email ?
+                    <Text onPress={() => this.props.navigation.navigate('Profile', {id: this.props.id})}> {this.props.postData.data.creador}</Text>
+                    :
+                    <Text onPress={() => this.props.navigation.navigate('PerfilAjeno', { email: this.props.postData.data.creador })}> {this.props.postData.data.creador}</Text>
+
+                }
+
+                <View>
+                    <Text>{this.props.postData.data.description} {this.props.postData.data.user} ({this.state.cantidaddelikes})
+                    </Text>
+                    <Image source={{uri: this.props.postData.data.image}} style={styles.photo} resizeMode="cover"/>
+                    
+                </View>
+
                 {this.state.milike ?
-                    <TouchableOpacity onPress={() => this.dislike()}>
-                        <Text>No me gusta</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => this.dislike()}>
+                        <Text style={styles.buttonText}>No me gusta</Text>
                     </TouchableOpacity>
                     :
-                    <TouchableOpacity onPress={() => this.like()}>
-                        <Text>Me gusta</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => this.like()}>
+                        <Text style={styles.buttonText}>Me gusta</Text>
                     </TouchableOpacity>
                 }
             </View>
@@ -59,6 +80,42 @@ class Post extends Component {
         )
     }
 }
+
+
+
+const styles= StyleSheet.create({
+    container: {
+        display: "flex",
+        flexDirection: "vertical",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        textAlign: "center"
+      },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+      },
+
+      buttonText: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+      },
+
+    photo: {        
+        height: '40vh',
+        width:'40vw',
+        borderRadius:"30"
+    }
+})
 
 export default Post;
 

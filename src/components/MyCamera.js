@@ -1,7 +1,6 @@
 // cuando tenga esto lo exporto como camara
 import React, { Component } from 'react';
 import { Camera } from 'expo-camera';
-import { auth } from '../firebase/config';
 import { storage } from '../firebase/config'; //no es la base de datos, es un baul que tiene tu firebase donde se van a guardar todas mis fotos. dentro de lo que es firebase
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
@@ -17,19 +16,17 @@ class Camara extends Component {
         this.metodosCamara = '' //es un estado que dejo vacio en donde voy a estar ejecutando la accion de capturar y donde voy a guardar la url temporal 
     }
 
-    componentDidMount() { //en el primer renderizado quiero que me pregunte si se puede activar la camara
 
-        Camera.requestCameraPermissionsAsync()// es un componente de react que tiene un metodo que me pide el request
-            .then(() => {
-                console.log(auth.currentUser.email); this.setState({ //si se llega a cumplir se me actualiza el estado y pone true allow
-                    allow: true
-                })
-            })
-
+    componentDidMount(){ //en el primer renderizado quiero que me pregunte si se puede activar la camara
+        console.log(Camera, "Camera");
+        Camera.requestCameraPermissionsAsync() // es un componente de react que tiene un metodo que me pide el request
+            .then( () => this.setState({
+                allow: true
+            }))
+            .catch( e => console.log(e))
     }
 
-    Captura() {
-
+    captura() {
         this.metodosCamara.takePictureAsync() //al "this.metodosCamara"  le voy a  agregar el metoodo takePictureAsync, una vez que saco la foto le pido que me traiga la url de mi foto y me dje de mostrar la camara
             .then(foto => {
                 this.setState({
@@ -55,8 +52,23 @@ class Camara extends Component {
             .catch(e => console.log(e))
     }
 
-    rechazar() {
+    guardar(){
+        fetch(this.state.url)
+         .then(res=>res.blob())
+         .then(image =>{
+           const refStorage=storage.ref(`photos/${Date.now()}.jpg`)
+           refStorage.put(image)
+                .then(()=>{
+                   refStorage.getDownloadURL()
+                        .then(url => {
+                            this.props.onImageUpload(url);
+                         })
+                 })
+         })
+         .catch(e=>console.log(e))
+    }
 
+    rechazar() {
         this.setState({
             url: '',
             showCamera: true
@@ -75,14 +87,14 @@ class Camara extends Component {
                                     type={Camera.Constants.Type.back} //es la camara que va a aparecer que en este caso es la frontal
                                     ref={metodosCamara => this.metodosCamara = metodosCamara} //gracias al ref voy a saber cual es mi uri
                                 />
-                                <TouchableOpacity style={styles.button} onPress={() => this.Captura()}>
+                                <TouchableOpacity style={styles.button} onPress={() => this.captura()}>
                                     <Text>Sacar foto</Text>
                                 </TouchableOpacity>
                             </View>
                             :
                             <View>
                                 <Image
-                                    style={styles.preview} // el preview de mii foto, puedo o aceptarla o cancelarla 
+                                    style={styles.preview} // el preview de mi foto, puedo o aceptarla o cancelarla 
                                     source={{ uri: this.state.url }}
                                     resizeMode='cover'
                                 />
@@ -90,7 +102,8 @@ class Camara extends Component {
                                 <TouchableOpacity style={styles.button} onPress={() => this.guardar()}>
                                     <Text>Aceptar</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.button} onPress={() => this.cancelar()}>
+                                
+                                <TouchableOpacity style={styles.button} onPress={() => this.rechazar()}>
                                     <Text>Cancelar</Text>
                                 </TouchableOpacity>
                             </View>

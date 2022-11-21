@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-
+import Camara from '../components/MyCamera';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 class Register extends Component {
     constructor(props) {
@@ -12,15 +12,10 @@ class Register extends Component {
             userName: '',
             bio: '',
             photo: '',
+            showCamera: false,
+            disabled: true,
             errors: '',
         }
-    }
-
-    //Remember me
-    componentDidMount() {
-        auth.onAuthStateChanged(user => {
-            this.props.navigation.navigate('Home')
-        })
     }
 
 
@@ -43,6 +38,7 @@ class Register extends Component {
                             pass: '',
                             userName: '',
                             bio: '',
+                            photo: '',
                             errors: ''
                         })
 
@@ -58,11 +54,18 @@ class Register extends Component {
             }))
     }
 
+    onImageUpload(url){
+        this.setState({
+            photo: url,
+            showCamera: false,
+        })
+        
+    }
 
     render() {
         return (
             <View style={styles.container} >
-                <Text style={styles.title}>Registro</Text>
+                <Text style={styles.title}>Creá tu cuenta</Text>
 
                 <View style={styles.inputView}>
 
@@ -94,19 +97,32 @@ class Register extends Component {
                         onChangeText={text => this.setState({ bio: text, errors: '' })}
                         value={this.state.bio} />
 
+                    {
+                        this.state.showCamera ?
+                        <View>
+                            <Camara style={{width: '100vw', heigth: '100vh', alignItems:'center'}} onImageUpload={url => this.onImageUpload(url)}/> 
+                        </View> 
+                        :
+                        <TouchableOpacity onPress={()=> this.setState({showCamera:true})}>
+                            <Text>Subir foto de perfil</Text>
+                        </TouchableOpacity>
+                    }
+
                     {/* ESTO SE HACE CON MY CAMERA */}
                     <TextInput style={styles.input}
-                        placeholder='Photo'
+                        placeholder='Foto de perfil'
                         keyboardType='default'
                         onChangeText={text => this.setState({ photo: text, errors: '' })}
                         value={this.state.photo} />
 
+
                 </View>
+
                 <Text>{this.state.errors}</Text>
 
                 {this.state.email == "" || this.state.pass == "" || this.state.userName == "" ?
-                    <TouchableOpacity onPress={() => this.setState({
-                        errors: 'Por favor complete los campos de email, password y userName'
+                    <TouchableOpacity style={styles.errors} onPress={() => this.setState({
+                        errors: 'Por favor complete los campos de email, contraseña y nombre de usuario'
                     })}>
                         <Text style={styles.buttonError}>Registrarme</Text>
                     </TouchableOpacity>
@@ -129,11 +145,13 @@ const styles = StyleSheet.create({
     container: {
         textAlign: "center",
         paddingHorizontal: 10,
-        flex: 1
+        flex: 1,
     },
     title: {
         fontSize: 20,
-        margin: 10
+        margin: 10,
+        fontSize: 24,
+        padding: 10
     },
     inputView: {
         justifyContent: "center",
@@ -149,7 +167,6 @@ const styles = StyleSheet.create({
     },
     buttonError: {
         backgroundColor: "blue",
-        color: "white",
         opacity: 0.4,
         borderRadius: 10,
         alignItems: "center",
@@ -160,11 +177,20 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: "blue",
         borderRadius: 10,
-        color: "white",
+        color:"white",
+        textAlign: "center",
+        padding: 10,
+        margin: 10
+    },
+    buttonCamera: {
+        borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
         padding: 10,
         margin: 10
+    },
+    errors:{
+        color: "red"
     }
 })
 
