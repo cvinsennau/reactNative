@@ -97,14 +97,6 @@ class Register extends Component {
                         onChangeText={text => this.setState({ bio: text, errors: '' })}
                         value={this.state.bio} />
 
-                    {/* ESTO SE HACE CON MY CAMERA */}
-                    <TextInput style={styles.input}
-                        placeholder='Foto de perfil'
-                        keyboardType='default'
-                        onChangeText={text => this.setState({ photo: text, errors: '' })}
-                        value={this.state.photo} />
-
-
                     {
                         this.state.showCamera ?
                         <View>
@@ -115,6 +107,13 @@ class Register extends Component {
                             <Text>Subir foto de perfil</Text>
                         </TouchableOpacity>
                     }
+
+                    {/* ESTO SE HACE CON MY CAMERA */}
+                    <TextInput style={styles.input}
+                        placeholder='Foto de perfil'
+                        keyboardType='default'
+                        onChangeText={text => this.setState({ photo: text, errors: '' })}
+                        value={this.state.photo} />
 
 
                 </View>

@@ -30,6 +30,7 @@ class Profile extends Component {
                     this.setState({
                         userName: data.userName,
                         bio: data.bio,
+                        photo: data.photo
                     });
                 });
             });
@@ -77,18 +78,26 @@ class Profile extends Component {
 
 
     eliminarPerfil() {
-        this.props.navigation.navigate('EliminarPerfil')
-            
+        this.props.navigation.navigate('EliminarPerfil')  
     }
 
 
     render() {
-        
+        console.log(this.state.photo);
+
         return (
 
             <ScrollView style={styles.scroll}>
+
+                
          
                 <View style={styles.container}>
+
+                <Image
+                    style={{width: '100vw', heigth: '100vh', alignItems:'center'}} 
+                    source={{ url: this.state.photo}}
+                    resizeMode = 'cover' 
+                />
 
                     <Text style={styles.userNameText}>{this.state.userName}</Text>
                     <Text>Email: {this.state.email}</Text>
