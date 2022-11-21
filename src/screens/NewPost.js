@@ -53,10 +53,9 @@ class NewPost extends Component {
             mostrarCamara: false,
         })
     }
-    render() {
+    render() {//contenedor con view con logo
         return (
-            <View style={styles.container}> //contenedor con view con logo
-
+            <View style={styles.container}> 
                 <Text style={styles.titulo}>Haz un post!</Text>
                 {
                     this.state.mostrarCamara ?

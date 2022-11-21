@@ -62,4 +62,4 @@ class Post extends Component {
 
 export default Post;
 
-    //11: es un array de likes que me va a llegar de la screen de post y me va a traer la cantidad de likes que tiene esa foto
+    //11: es un array de likes que me va a llegar de la screen de post y me va a traer la cantidad de likes que tiene esa foton
