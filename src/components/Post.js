@@ -45,7 +45,7 @@ class Post extends Component {
         { console.log(this.props.postData.data) }
         return (
             
-            <View>            
+            <View style={styles.container} >            
                 <View>
                     <Text>{this.props.postData.data.description} {this.props.postData.data.user} ({this.state.cantidaddelikes})
                     </Text>
@@ -54,12 +54,12 @@ class Post extends Component {
                 </View>
 
                 {this.state.milike ?
-                    <TouchableOpacity onPress={() => this.dislike()}>
-                        <Text>No me gusta</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => this.dislike()}>
+                        <Text style={styles.buttonText}>No me gusta</Text>
                     </TouchableOpacity>
                     :
-                    <TouchableOpacity onPress={() => this.like()}>
-                        <Text>Me gusta</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => this.like()}>
+                        <Text style={styles.buttonText}>Me gusta</Text>
                     </TouchableOpacity>
                 }
             </View>
@@ -71,9 +71,36 @@ class Post extends Component {
 
 
 const styles= StyleSheet.create({
+    container: {
+        display: "flex",
+        flexDirection: "vertical",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        textAlign: "center"
+      },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+      },
+
+      buttonText: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+      },
+
     photo: {        
         height: '40vh',
-        width:'40vw'
+        width:'40vw',
+        borderRadius:"30"
     }
 })
 

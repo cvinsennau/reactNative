@@ -42,6 +42,8 @@ class Home extends Component {
 
                 <Text> Lista de posteos </Text>
                 <FlatList //se escrolee
+                    ref= "flatList"
+                    onContentSizeChange={()=> this.refs.flatList.scrollToEnd()} 
                     data={this.state.post}
                     keyExtractor={onePost => onePost.id.toString()} //es como el api key del posteo
                     renderItem={({ item }) => <Post postData={item} navigation={this.props.navigation}/>}
