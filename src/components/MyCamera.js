@@ -103,7 +103,7 @@ class Camara extends Component {
                                     <Text>Aceptar</Text>
                                 </TouchableOpacity>
                                 
-                                <TouchableOpacity style={styles.button} onPress={() => this.cancelar()}>
+                                <TouchableOpacity style={styles.button} onPress={() => this.rechazar()}>
                                     <Text>Cancelar</Text>
                                 </TouchableOpacity>
                             </View>

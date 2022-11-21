@@ -11,11 +11,15 @@ class Post extends Component {
             milike: false
         }
     }
+
     componentDidMount( // quiero ver si el usuario ya likeo la foto o no entonces en el primer renderizado le mando esto
     ) {
-        if (this.props.postData.data.likes.includes(auth.currentUser.email)) { this.setState({ milike: true }) } // si el usuario ya likeo el posteo que me aparezca milike true, es decir que ya este likeado y this.setState es justamente para modificar un esatdo ya establecido previamente
-
+        if (this.props.postData.data.likes.includes(auth.currentUser.email)) { 
+            this.setState({ 
+                milike: true }) 
+            } // si el usuario ya likeo el posteo que me aparezca milike true, es decir que ya este likeado y this.setState es justamente para modificar un esatdo ya establecido previamente
     }
+
     like() { // es un array
         db.collection("posts").doc(this.props.postData.id) //identificar el posteos
             .update({ //lo actualizo agreganfo mi like
@@ -28,6 +32,7 @@ class Post extends Component {
             )
             .catch(e => console.log(e))
     }
+
     dislike() { // es un array
         db.collection("posts").doc(this.props.postData.id) //identificar el posteos
             .update({ //lo actualizo agreganfo mi like
@@ -45,7 +50,15 @@ class Post extends Component {
         { console.log(this.props.postData.data) }
         return (
             
-            <View style={styles.container} >            
+            <View style={styles.container} >  
+
+                {this.props.postData.data.creador == auth.currentUser.email ?
+                    <Text onPress={() => this.props.navigation.navigate('Profile', {id: this.props.id})}> {this.props.postData.data.creador}</Text>
+                    :
+                    <Text onPress={() => this.props.navigation.navigate('PerfilAjeno', { email: this.props.postData.data.creador })}> {this.props.postData.data.creador}</Text>
+
+                }
+
                 <View>
                     <Text>{this.props.postData.data.description} {this.props.postData.data.user} ({this.state.cantidaddelikes})
                     </Text>

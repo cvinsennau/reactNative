@@ -63,16 +63,16 @@ class NewPost extends Component {
                         <Camara onImageUpload={url => this.onImageUpload(url)} /> // componente camara para sacar la foto
                         :
                         <View>
-                            <Text> Escribe algo</Text>
+                            {/* <Text> Escribe algo</Text> */}
                             <View>
                                 <TextInput  //esto es un in put 
-                                    placeholder='escribe algo' //lo que te aparezca en gris
-                                    keyboardType='default'// 
+                                    placeholder='Escribe algo aquí'
+                                    keyboardType='default'
                                     onChangeText={text => this.setState({ description: text })} //se fija que todo lo que vaya escribiendo la persona se vaya guardando en el estadp y lo va guardar en el value
                                     value={this.state.description} // es el valor final del input,
                                 />
 
-                                <TouchableOpacity onPress={() => this.subirPost()}> //
+                                <TouchableOpacity onPress={() => this.subirPost()}> 
                                     <Text style={styles.boton}> Compartir tu post</Text>
                                 </TouchableOpacity>
 

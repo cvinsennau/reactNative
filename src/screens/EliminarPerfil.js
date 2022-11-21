@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 class EliminarPerfil extends Component {
@@ -76,15 +77,14 @@ class EliminarPerfil extends Component {
                     <TouchableOpacity onPress={() => this.setState({
                         errors: 'Por favor complete los campos de email y contraseña'
                     })}>
-                        <Text>Eliminar</Text>
+                        <Text style={styles.buttonError}><FontAwesome name="trash-o" size={16} color="white" /> Eliminar</Text>
                     </TouchableOpacity>
                     :
-                    <TouchableOpacity onPress={() => this.eliminar(this.state.email, this.state.pass)}>
-                        <Text>Eliminar</Text>
+                    <TouchableOpacity  onPress={() => this.eliminar(this.state.email, this.state.pass)}>
+                        <Text style={styles.button}><FontAwesome name="trash-o" size={16} color="white" /> Eliminar</Text>
                     </TouchableOpacity>
                 }
 
-                {/* NO FUNCIONA */}
                 <Text onPress={ () => this.props.navigation.navigate('Profile')}>Volver a mi perfil</Text>
 
                 </View>
@@ -114,6 +114,23 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 10
     },
+    buttonError:{
+        backgroundColor: "blue",
+        opacity: 0.4,
+        borderRadius: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 10,
+        margin: 10
+    },
+    button:{
+        backgroundColor: "blue",
+        borderRadius: 10,
+        color:"white",
+        textAlign: "center",
+        padding: 10,
+        margin: 10
+    }
 });
 
 

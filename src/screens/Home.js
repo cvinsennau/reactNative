@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { db } from '../firebase/config';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, StyleSheet } from 'react-native';
 import Post from '../components/Post';
 
 
@@ -37,17 +37,16 @@ class Home extends Component {
 
     render() {
         return (
-            <View>
-                <Text> Home </Text>
+            <View style={styles.container}>
+                <Text style={styles.title}>Be Fake.</Text>
 
-                <Text> Lista de posteos </Text>
-                <FlatList //se escrolee
-                    ref= "flatList"
-                    onContentSizeChange={()=> this.refs.flatList.scrollToEnd()} 
+                <FlatList style={{flex: 1}}
+                    // ref= "flatList"
+                    // onContentSizeChange={()=> this.ref.flatList.scrollToEnd()} 
                     data={this.state.post}
                     keyExtractor={onePost => onePost.id.toString()} //es como el api key del posteo
-                    renderItem={({ item }) => <Post postData={item} navigation={this.props.navigation}/>}
-                    
+                    renderItem={({ item }) => <Post navigation={this.props.navigation} postData={item} id={item.id} />} 
+
                 />
 
             </View>
@@ -57,3 +56,19 @@ class Home extends Component {
 }
 
 export default Home;
+
+
+const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+    },
+    title: {
+        fontSize: 46,
+        fontWeight: 'bold',
+        marginTop: 20,
+        margin: 10,
+        color: 'black'
+    },
+})

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import Post from '../components/Post'
 
+import { MaterialIcons } from '@expo/vector-icons';
 
 class Profile extends Component {
     constructor(props) {
@@ -12,7 +14,7 @@ class Profile extends Component {
             email: "",
             bio: '',
             photo:'',
-            posteos: []
+            posts: []
         }
     }
 
@@ -35,17 +37,16 @@ class Profile extends Component {
                 });
             });
 
-        db.collection('posts').where('owner', '==', auth.currentUser.email).onSnapshot(
+        db.collection('posts').where('creador', '==', auth.currentUser.email).onSnapshot(
             docs =>{
-                let posteos = [];
+                let posts = [];
                 docs.forEach( doc => {
-                    posteos.push({
+                    posts.push({
                         id: doc.id,
                         data: doc.data()
                     })
                     this.setState({
-                    posteos: posts,
-                    loading: false,
+                        posts: posts,
                    })
                 })
             }
@@ -81,71 +82,83 @@ class Profile extends Component {
         this.props.navigation.navigate('EliminarPerfil')  
     }
 
+    back() {
+        this.props.navigation.navigate('Home')  
+    }
 
     render() {
-        console.log(this.state.photo);
-
         return (
 
-            <ScrollView style={styles.scroll}>
+            <View style={styles.container}>
 
-                
-         
-                <View style={styles.container}>
+                <TouchableOpacity style={styles.button} onPress = {() => this.back()} >
+                    <Text style={styles.buttonText}>Volver a Home</Text>
+                </TouchableOpacity> 
 
-                <Image
-                    style={{width: '100vw', heigth: '100vh', alignItems:'center'}} 
-                    source={{ url: this.state.photo}}
-                    resizeMode = 'cover' 
-                />
+            <View>
 
-                    <Text style={styles.userNameText}>{this.state.userName}</Text>
-                    <Text>Email: {this.state.email}</Text>
-                    <Text>Biografía: {this.state.bio}</Text>
-
-                    
-                    
-                </View>
-                
-                <Text>Cantidad de posteos: {this.state.posteos.length} </Text>
-
-                <View>
-                    <Text>Posteos recientes</Text>
-                    {/* No se si funciona todavía */}
-                    <FlatList
-                        data={this.state.posts}
-                        keyExtractor={onePost => onePost.id.toString()}
-                        renderItem={({ item }) => <Post postData={item} />}
+                {this.state.photo != '' ?
+                    <Image
+                        style={styles.profilePhoto} 
+                        source={this.state.photo}
+                        resizeMode = 'cover' 
                     />
+                :
+                <Text>Sin foto de perfil</Text>
+                }
+
+                <Text style={styles.userNameText}>{this.state.userName}</Text>
+                <Text>Email: {this.state.email}</Text>
+                <Text>Biografía: {this.state.bio}</Text>
+            </View>
+                    
+                    
+                
+
+            <View>
+                <Text>Cantidad de posteos: {this.state.posts.length} </Text>
+                <Text>Posteos recientes</Text>
+
+                {this.state.posts.length >= 1 ?
+                <FlatList 
+                    data={this.state.posts}
+                    keyExtractor={ onePost => onePost.id.toString()}
+                    renderItem={ ({item}) => <Post postData={item} navigation={this.props.navigation} />}
+                />
+                :
+                <Text>Aún no hay publicaciones</Text>
+                }
 
             </View>
-                    {/* <TouchableOpacity onPress = {() => this.updateData()}>
+
+            <View>
+                {/* <TouchableOpacity onPress = {() => this.updateData()}>
                        <Text>Editar</Text> 
                     </TouchableOpacity>
- */}
-                    <TouchableOpacity onPress = {() => this.eliminarPerfil(this.state.email)} >
-                        <Text>Borrar perfil</Text>
-                    </TouchableOpacity> 
+                */}
+                <TouchableOpacity style={styles.button} onPress = {() => this.eliminarPerfil(this.state.email)} >
+                    <Text style={styles.buttonText}>Borrar perfil</Text>
+                </TouchableOpacity> 
 
-                    <TouchableOpacity onPress={() => this.logout()}>
-                        <Text>Logout</Text>
-                    </TouchableOpacity>
-
-            </ScrollView>
+                <TouchableOpacity style={styles.button} onPress={() => this.logout()}>
+                    <Text style={styles.buttonText}><MaterialIcons name="logout" size={16} color="black" /> Logout</Text>
+                </TouchableOpacity>
+            </View>
+                    
+        </View>
+            
         )
     }
 }
 
 
 const styles = StyleSheet.create({
-    scroll: {
-        backgroundColor: '#FFF',
-      },
     container: {
         alignItems: 'center',
         backgroundColor: '#FFF',
         marginBottom: 10,
         marginTop: 45,
+        flex: 1,
     },
     title: {
         fontSize: 20,
@@ -156,6 +169,23 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center',
+    },
+    profilePhoto: {
+        height:200,
+        width:200,
+        borderRadius: 250,
+        margin: 10,
+        alignItems:'center'    
+    },
+    button:{
+        backgroundColor: "grey",
+        borderRadius: 10,
+        margin: 5,
+    }, 
+    buttonText:{
+        fontSize: 16,
+        color: "#fff",
+        alignSelf: "center",
     }
 })
 
