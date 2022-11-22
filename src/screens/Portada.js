@@ -11,12 +11,14 @@ class Portada extends Component {
     }
 
 
-   //Remember me
-    // componentDidMount() {
-    //     auth.onAuthStateChanged(user => {
-    //         this.props.navigation.navigate('HomeMenu')
-    //     })
-    // } 
+//    Remember me
+    componentDidMount() {
+        auth.onAuthStateChanged(user => {
+            if (user){
+                this.props.navigation.navigate('HomeMenu')
+            }    
+        })
+    } 
 
     render() {
         return (
