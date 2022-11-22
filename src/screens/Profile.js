@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Post from '../components/Post'
 
 import { MaterialIcons } from '@expo/vector-icons';
@@ -8,12 +8,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 class Profile extends Component {
     constructor(props) {
         super(props)
-        
+
         this.state = {
             userName: '',
             email: "",
             bio: '',
-            photo:'',
+            photo: '',
             posts: []
         }
     }
@@ -23,7 +23,7 @@ class Profile extends Component {
 
         console.log(auth.currentUser.email, "usuario");
 
-        this.setState({email: auth.currentUser.email});
+        this.setState({ email: auth.currentUser.email });
 
         db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
             docs => {
@@ -38,22 +38,22 @@ class Profile extends Component {
             });
 
         db.collection('posts').where('creador', '==', auth.currentUser.email).onSnapshot(
-            docs =>{
+            docs => {
                 let posts = [];
-                docs.forEach( doc => {
+                docs.forEach(doc => {
                     posts.push({
                         id: doc.id,
                         data: doc.data()
                     })
                     this.setState({
                         posts: posts,
-                   })
+                    })
                 })
             }
         )
     };
 
-    
+
     //Editar data del perfil
     // updateData(){
     //     db.collection('users').where('owner', '==', auth.currentUser.email)
@@ -67,7 +67,7 @@ class Profile extends Component {
     //     })
     // }
 
-    
+
 
     //Logout
     logout() {
@@ -79,74 +79,71 @@ class Profile extends Component {
 
 
     eliminarPerfil() {
-        this.props.navigation.navigate('EliminarPerfil')  
+        this.props.navigation.navigate('EliminarPerfil')
     }
 
     back() {
-        this.props.navigation.navigate('Home')  
+        this.props.navigation.navigate('Home')
     }
 
     render() {
         return (
 
             <View style={styles.container}>
+                <Text style={styles.title}>Be Fake.</Text>
 
-                <TouchableOpacity style={styles.button} onPress = {() => this.back()} >
+                <TouchableOpacity style={styles.button} onPress={() => this.back()} >
                     <Text style={styles.buttonText}>Volver a Home</Text>
-                </TouchableOpacity> 
-
-            <View>
-
-                {this.state.photo != '' ?
-                    <Image
-                        style={styles.profilePhoto} 
-                        source={this.state.photo}
-                        resizeMode = 'cover' 
-                    />
-                :
-                <Text>Sin foto de perfil</Text>
-                }
+                </TouchableOpacity>
 
                 <Text style={styles.userNameText}>{this.state.userName}</Text>
-                <Text>Email: {this.state.email}</Text>
-                <Text>Biografía: {this.state.bio}</Text>
-            </View>
-                    
-                    
-                
 
-            <View>
-                <Text>Cantidad de posteos: {this.state.posts.length} </Text>
-                <Text>Posteos recientes</Text>
+                <View>
 
-                {this.state.posts.length >= 1 ?
-                <FlatList 
-                    data={this.state.posts}
-                    keyExtractor={ onePost => onePost.id.toString()}
-                    renderItem={ ({item}) => <Post postData={item} navigation={this.props.navigation} />}
-                />
-                :
-                <Text>Aún no hay publicaciones</Text>
-                }
+                    {this.state.photo != '' ?
+                        <Image
+                            style={styles.profilePhoto}
+                            source={this.state.photo}
+                            resizeMode='cover'
+                        />
+                        :
+                        <Text>Sin foto de perfil</Text>
+                    }
 
-            </View>
+                    <Text>Email: {this.state.email}</Text>
+                    <Text>Biografía: {this.state.bio}</Text>
+                    <Text>Cantidad de posteos: {this.state.posts.length} </Text>
+                    <Text>Posteos recientes</Text>
+                </View>
+                <View>
+                    {this.state.posts.length >= 1 ?
+                        <FlatList style={styles.list}
+                            data={this.state.posts}
+                            keyExtractor={onePost => onePost.id.toString()}
+                            renderItem={({ item }) => <Post postData={item} navigation={this.props.navigation} />}
+                        />
+                        :
+                        <Text>Aún no hay publicaciones</Text>
+                    }
 
-            <View>
-                {/* <TouchableOpacity onPress = {() => this.updateData()}>
+                </View>
+
+                <View>
+                    {/* <TouchableOpacity onPress = {() => this.updateData()}>
                        <Text>Editar</Text> 
                     </TouchableOpacity>
                 */}
-                <TouchableOpacity style={styles.button} onPress = {() => this.eliminarPerfil(this.state.email)} >
-                    <Text style={styles.buttonText}>Borrar perfil</Text>
-                </TouchableOpacity> 
+                    <TouchableOpacity style={styles.button} onPress={() => this.eliminarPerfil(this.state.email)} >
+                        <Text style={styles.buttonText}>Borrar perfil</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={() => this.logout()}>
-                    <Text style={styles.buttonText}><MaterialIcons name="logout" size={16} color="black" /> Logout</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => this.logout()}>
+                        <Text style={styles.buttonText}><MaterialIcons name="logout" size={16} color="black" /> Logout</Text>
+                    </TouchableOpacity>
+                </View>
+
             </View>
-                    
-        </View>
-            
+
         )
     }
 }
@@ -154,39 +151,61 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        overflow: "scroll",
         alignItems: 'center',
         backgroundColor: '#FFF',
         marginBottom: 10,
         marginTop: 45,
         flex: 1,
     },
+    
     title: {
         fontSize: 20,
         margin: 10
     },
-    userNameText:{
-        color: '#5B5A5A',
-        fontSize: 18,
+    userNameText: {
+        color: 'black',
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
     },
     profilePhoto: {
-        height:200,
-        width:200,
+        height: 200,
+        width: 200,
         borderRadius: 250,
         margin: 10,
-        alignItems:'center'    
+        alignItems: 'center'
     },
-    button:{
-        backgroundColor: "grey",
+    button: {
         borderRadius: 10,
         margin: 5,
-    }, 
-    buttonText:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+    },
+    buttonText: {
         fontSize: 16,
-        color: "#fff",
-        alignSelf: "center",
-    }
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
+    title: {
+        fontSize: 46,
+        fontWeight: 'bold',
+        marginTop: 20,
+        margin: 10,
+        color: 'black'
+    },
+    list: {
+        paddingHorizontal: 17,
+        backgroundColor:"#E6E6E6",
+        flex:1,
+      },
 })
 
 export default Profile;

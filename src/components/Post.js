@@ -47,7 +47,7 @@ class Post extends Component {
     }
 
     render() {
-        { console.log(this.props.postData.data) }
+        { console.log(this.props.postData) }
         return (
             
             <View style={styles.container} >  
@@ -60,10 +60,11 @@ class Post extends Component {
                 }
 
                 <View>
-                    <Text style={styles.description}>description: {this.props.postData.data.description}  </Text>
-                    {/*<Text>{this.props.postData.data.user} </Text>    no muestra user debe esatr mal creo */}
-                    <Text> ({this.state.cantidaddelikes}) </Text>
-                    <Image source={{uri: this.props.postData.data.image}} style={styles.photo} resizeMode="cover"/>
+                    <Text style={styles.description}>descripcion: {this.props.postData.data.description}  </Text>
+                    {/*<Text>{this.props.postData.data.userName} </Text>*/}  
+                    <Text> Cantidad de Likes: ({this.state.cantidaddelikes}) </Text>
+                    {/*<Text> Fecha de publicacion: {this.props.postData.data.createdAt}</Text>*/}
+                    <Image  source={{uri: this.props.postData.data.image}} style={styles.photo} resizeMode="cover"/>
                     
                 </View>
 
@@ -76,6 +77,12 @@ class Post extends Component {
                         <Text style={styles.buttonText}>Me gusta</Text>
                     </TouchableOpacity>
                 }
+                    
+
+                    <TouchableOpacity style={styles.button} onPress={() => { console.log(this.props.postData.id);  this.props.navigation.navigate("Comments",{id:this.props.postData.id } ) }}>
+                        <Text style={styles.buttonText}>Agregar Comentario</Text>
+                    </TouchableOpacity>
+
             </View>
 
         )
@@ -107,8 +114,7 @@ const styles= StyleSheet.create({
         marginTop: 20,
         margin: 10,
         color: 'black',
-        underline: {textDecorationLine: 'underline'},
-        
+        textDecorationLine: 'underline',
       },
     button: {
         alignItems: 'center',
@@ -132,6 +138,7 @@ const styles= StyleSheet.create({
         height: '40vh',
         width:'40vw',
         borderRadius: 45,
+        
     }
 })
 
