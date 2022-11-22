@@ -8,7 +8,8 @@ class Search extends Component {
         super();
         this.init = true; // Señal para el mensaje de Busqueda vacía
         this.state = {
-            input: "",
+            searchPhrase: "",
+            clicked: false,
             AllUsers: [],
             resultsOfSearch: [],
         }
@@ -38,9 +39,10 @@ class Search extends Component {
     filtering(userNameSearched){
         this.init = false;
         let filtered = this.state.AllUsers.filter((user) => user.data.userName.toLowerCase().includes(userNameSearched.toLowerCase()))
+        console.log(filtered, "filtrado");
         this.setState({
             resultsOfSearch: filtered, // resultsOfSearch = AllUsers filtrados
-            input: userNameSearched
+            
         })
     }
 
@@ -50,43 +52,46 @@ class Search extends Component {
         } else {
             this.props.navigation.navigate('PerfilAjeno', { email: item.data.owner })
         }
-    }     
+    }  
+     
+    setClicked(value){
+        this.setState({clicked: value})
+    }
+
+    setSearchPhrase(value){
+        console.log(value , "value");
+       this.setState({searchPhrase: value});
+       this.filtering(value);
+
+    }
+
+    
 
     render(){
-        const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
+        
         return(
+            
 
             <View style={styles.container}>
                 <Text style={styles.title}> Search in Be Fake.</Text>
 
-                <View style={clicked ? styles.searchBar__clicked : styles.searchBar__unclicked}> 
+                <View style={this.state.clicked ? styles.searchBar__clicked : styles.searchBar__unclicked}> 
 
                     {/* search Icon */}
                     <Feather name="search" size={20} color = "black" style={{ marginLeft: 1 }}/> 
 
                     {/* Input field */}
-                    <TextInput style={styles.input} placeholder = "Search" value={searchPhrase} onChangeText={setSearchPhrase}onFocus={() => {setClicked(true);}}/>
+                    <TextInput style={styles.input} placeholder = "Search" value = {this.state.searchPhrase} onChangeText = {(ev) => this.setSearchPhrase(ev)}onFocus={() => {this.setClicked(true);}}/>
 
                     {/* cross Icon, depending on whether the search bar is clicked or not */}
-                    {clicked && (<Entypo name = "cross" size = {20} color = "black" style={{ padding: 1 }} onPress={() => {setSearchPhrase("")}}/>)}
+                    {this.state.clicked && (<Entypo name = "cross" size = {20} color = "black" style={{ padding: 1 }} onPress={() => {this.setSearchPhrase("")}}/>)}
         
                 </View>
-
+                
                     {/* cancel button, depending on whether the search bar is clicked or not */}
-                    {clicked && (<View> <Button title = "Cancel" onPress = {() => {Keyboard.dismiss(); setClicked(false);}}></Button> </View>)}
+                    {this.state.clicked && (<View> <Button style={styles.Button} title = "Cancel" onPress = {() => {Keyboard.dismiss(); this.setClicked(false);}}></Button> </View>)}
 
-                           
-                <View >
-                    <TextInput style={styles.input} 
-                            placeholder = 'Busca un Usuario'
-                            keyboardType = 'default'
-                            onChangeText = {claveBusqueda => this.filtering(claveBusqueda)}
-                            value = {this.state.input}
-                            
-                    />
-                    
-                </View>
-
+                <View>        
                 {
                     this.state.resultsOfSearch.length === 0 && !this.init ?
                         <Text> Busqueda vacia </Text>
@@ -94,12 +99,13 @@ class Search extends Component {
                     <FlatList
                             data={this.state.resultsOfSearch}
                             keyExtractor = { oneUser => oneUser.id.toString()}
-                            renderItem = {({ item }) => <Text onPress = {() => this.GoToProfile(item)} > {item.data.userName}</Text>}
+                            renderItem = {({ item }) => <Text onPress = {() => this.GoToProfile(item)} > {item.data.userName} </Text>}
                     />
                 }
+                </View> 
             </View>
 
-        )};
+        );
     }
 }
 
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
         margin: 15,
         justifyContent: "flex-start",
         alignItems: "center",
-        flexDirection: "row",
+        
         width: "90%",
     
       },
@@ -145,6 +151,16 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 10,
         width: "90%",
+      },
+      Button:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black'
+
       },
 
 
