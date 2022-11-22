@@ -8,6 +8,7 @@ import Portada from './src/screens/Portada';
 import Profile from './src/screens/Profile';
 import PerfilAjeno from './src/screens/PerfilAjeno';
 import EliminarPerfil from './src/screens/EliminarPerfil'
+import Comments from './src/screens/Comments';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ function App() {
       <Stack.Screen name="Profile" options= {{ headerShown : false}} component={Profile} /> 
       <Stack.Screen name="EliminarPerfil" options= {{ headerShown : false}} component={EliminarPerfil} />
       <Stack.Screen name="PerfilAjeno" options= {{ headerShown : false}} component={PerfilAjeno} />
+      <Stack.Screen name="Comments" options= {{ headerShown : false}} component={Comments} />
 
       </Stack.Navigator>
     </NavigationContainer>

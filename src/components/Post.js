@@ -47,7 +47,7 @@ class Post extends Component {
     }
 
     render() {
-        { console.log(this.props.postData.data) }
+        { console.log(this.props.postData) }
         return (
             
             <View style={styles.container} >  
@@ -76,6 +76,12 @@ class Post extends Component {
                         <Text style={styles.buttonText}>Me gusta</Text>
                     </TouchableOpacity>
                 }
+                    
+
+                    <TouchableOpacity style={styles.button} onPress={() => { console.log(this.props.postData.id);  this.props.navigation.navigate("Comments",{id:this.props.postData.id } ) }}>
+                        <Text style={styles.buttonText}>Agregar Comentario</Text>
+                    </TouchableOpacity>
+
             </View>
 
         )
