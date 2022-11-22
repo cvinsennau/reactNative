@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         paddingHorizontal: 10,
         flex: 1,
+        
     },
     title: {
         fontSize: 20,
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
         margin: 10
     },
     button: {
-        backgroundColor: "blue",
+        backgroundColor: "black",
         borderRadius: 10,
         color:"white",
         textAlign: "center",

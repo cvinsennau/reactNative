@@ -88,7 +88,7 @@ class Camara extends Component {
                                     ref={metodosCamara => this.metodosCamara = metodosCamara} //gracias al ref voy a saber cual es mi uri
                                 />
                                 <TouchableOpacity style={styles.button} onPress={() => this.captura()}>
-                                    <Text>Sacar foto</Text>
+                                    <Text style={styles.buttonText} >Sacar foto</Text>
                                 </TouchableOpacity>
                             </View>
                             :
@@ -100,11 +100,11 @@ class Camara extends Component {
                                 />
 
                                 <TouchableOpacity style={styles.button} onPress={() => this.guardar()}>
-                                    <Text>Aceptar</Text>
+                                    <Text style={styles.buttonText}>Aceptar</Text>
                                 </TouchableOpacity>
                                 
                                 <TouchableOpacity style={styles.button} onPress={() => this.rechazar()}>
-                                    <Text>Cancelar</Text>
+                                    <Text style={styles.buttonText}>Cancelar</Text>
                                 </TouchableOpacity>
                             </View>
 
@@ -122,13 +122,23 @@ const styles = StyleSheet.create({
         height: '80vh',
         width: '80vw',
     },
-    button: {
-        height: '20vh',
-        borderColor: '#ccc',
-        borderWidth: 1,
-        padding: 5,
+    button:{
+        borderRadius: 10,
+        margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
         borderRadius: 4,
-        marginTo: 20
+        elevation: 3,
+        backgroundColor: 'black', 
+    }, 
+    buttonText:{
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
     },
     preview:
     {

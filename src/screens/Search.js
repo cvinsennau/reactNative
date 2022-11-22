@@ -99,7 +99,7 @@ class Search extends Component {
                         this.state.resultsOfSearch.length === 0 && !this.init ?
                             <Text> Busqueda vacia </Text>
                             :
-                            <FlatList
+                            <FlatList style={styles.list}
                                 data={this.state.resultsOfSearch}
                                 keyExtractor={oneUser => oneUser.id.toString()}
                                 renderItem={({ item }) => <Text onPress={() => this.GoToProfile(item)} > {item.data.userName} </Text>}
@@ -165,6 +165,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'black'
 
     },
+    list: {
+        paddingHorizontal: 17,
+        backgroundColor:"#E6E6E6",
+        flex:1,
+      },
 
 
 });

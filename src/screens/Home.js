@@ -39,15 +39,15 @@ class Home extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Be Fake.</Text>
+                    
+                        <FlatList style={styles.list}
+                        // ref= "flatList"
+                        // onContentSizeChange={()=> this.ref.flatList.scrollToEnd()} 
+                        data={this.state.post}
+                         keyExtractor={onePost => onePost.id.toString()} //es como el api key del posteo
+                        renderItem={({ item }) => <Post navigation={this.props.navigation} postData={item} id={item.id} />} 
 
-                <FlatList style={{flex: 1}}
-                    // ref= "flatList"
-                    // onContentSizeChange={()=> this.ref.flatList.scrollToEnd()} 
-                    data={this.state.post}
-                    keyExtractor={onePost => onePost.id.toString()} //es como el api key del posteo
-                    renderItem={({ item }) => <Post navigation={this.props.navigation} postData={item} id={item.id} />} 
-
-                />
+                         />
 
             </View>
 
@@ -60,6 +60,7 @@ export default Home;
 
 const styles = StyleSheet.create({
     container:{
+        overflow: "scroll",
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
@@ -71,4 +72,9 @@ const styles = StyleSheet.create({
         margin: 10,
         color: 'black'
     },
+    list: {
+        paddingHorizontal: 17,
+        backgroundColor:"#E6E6E6",
+        flex:1,
+      },
 })

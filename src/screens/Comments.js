@@ -43,6 +43,7 @@ class Comments extends Component {
     render() {
         return (
             <View style={styles.container} >
+                <Text style={styles.title}>Be Fake.</Text>
                 <View>
                 <TouchableOpacity style={styles.button} onPress = {() => this.back()} >
                     <Text style={styles.buttonText}>Volver a Home</Text>
@@ -53,20 +54,19 @@ class Comments extends Component {
                             <Text style={styles}> Todavía no hay comentarios. </Text>
                         </View>
                         :
-
                         
-                        <FlatList
+                        <FlatList style={styles.list}
                             data = {this.state.comments}
                             keyExtractor = {oneComment => oneComment.createdAt.toString()}
                             renderItem={({ item }) => <Text >{item.creador}: {item.textoComentario}</Text>}
                         />
                     }
-                    <TextInput
+                    <TextInput 
                         placeholder='Agregue un comentario'
                         keyboardType='default'
                         onChangeText={text => this.setState({ oneComment: text })}
                         value={this.state.comentario}
-                        style={styles.texto}
+                        style={styles.input}
                     />
                     {this.state.oneComment == "" ?
                         <Text></Text>
@@ -89,10 +89,41 @@ const styles = StyleSheet.create({
         flex: 1,
         
     },
-    button:{
-        backgroundColor: "grey",
+    button: {
         borderRadius: 10,
         margin: 5,
-    }, 
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+    },
+    buttonText: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
+    title: {
+        fontSize: 46,
+        fontWeight: 'bold',
+        marginTop: 20,
+        margin: 10,
+        color: 'black'
+    },
+    list: {
+        paddingHorizontal: 17,
+        backgroundColor:"#E6E6E6",
+        flex:1,
+      },
+      input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+      },
 })
 export default Comments;
