@@ -1,5 +1,5 @@
 import React, { Component, Dimensions } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet,FlatList } from 'react-native';
 import { auth, db } from '../firebase/config'; //auth componente para autenticar el firebase, chequear si existe un usuario o crear un usuario. db es data base
 import firebase from 'firebase';
 
@@ -14,10 +14,11 @@ class Post extends Component {
 
     componentDidMount( // quiero ver si el usuario ya likeo la foto o no entonces en el primer renderizado le mando esto
     ) {
-        if (this.props.postData.data.likes.includes(auth.currentUser.email)) { 
-            this.setState({ 
-                milike: true }) 
-            } // si el usuario ya likeo el posteo que me aparezca milike true, es decir que ya este likeado y this.setState es justamente para modificar un esatdo ya establecido previamente
+        if (this.props.postData.data.likes.includes(auth.currentUser.email)) {
+            this.setState({
+                milike: true
+            })
+        } // si el usuario ya likeo el posteo que me aparezca milike true, es decir que ya este likeado y this.setState es justamente para modificar un esatdo ya establecido previamente
     }
 
     like() { // es un array
@@ -49,23 +50,36 @@ class Post extends Component {
     render() {
         { console.log(this.props.postData) }
         return (
-            
-            <View style={styles.container} >  
+
+            <View style={styles.container} >
 
                 {this.props.postData.data.creador == auth.currentUser.email ?
-                    <Text style={styles.nombre} onPress={() => this.props.navigation.navigate('Profile', {id: this.props.id})}> User: {this.props.postData.data.creador}</Text>
+                    <Text style={styles.nombre} onPress={() => this.props.navigation.navigate('Profile', { id: this.props.id })}> {this.props.postData.data.creador}</Text>
                     :
-                    <Text style={styles.nombre} onPress={() => this.props.navigation.navigate('PerfilAjeno', { email: this.props.postData.data.creador })}> User: {this.props.postData.data.creador}</Text>
+                    <Text style={styles.nombre} onPress={() => this.props.navigation.navigate('PerfilAjeno', { email: this.props.postData.data.creador })}> {this.props.postData.data.creador}</Text>
 
                 }
 
                 <View>
+                    {this.props.postData.data.coments == 0 ?
+
+                        <View>
+                            <Text style={styles}> Todavía no hay comentarios. </Text>
+                        </View>
+                        :
+
+                        <FlatList style={styles.list}
+                            data={this.props.postData.data.comments}
+                            keyExtractor={oneComment => oneComment.createdAt.toString()}
+                            renderItem={({ item }) => <Text >{item.creador}: {item.textoComentario}</Text>}
+                        />
+                    }
                     <Text style={styles.description}>descripcion: {this.props.postData.data.description}  </Text>
-                    {/*<Text>{this.props.postData.data.userName} </Text>*/}  
+                    {/*<Text>{this.props.postData.data.userName} </Text>*/}
                     <Text> Cantidad de Likes: ({this.state.cantidaddelikes}) </Text>
                     {/*<Text> Fecha de publicacion: {this.props.postData.data.createdAt}</Text>*/}
-                    <Image  source={{uri: this.props.postData.data.image}} style={styles.photo} resizeMode="cover"/>
-                    
+                    <Image source={{ uri: this.props.postData.data.image }} style={styles.photo} resizeMode="cover" />
+
                 </View>
 
                 {this.state.milike ?
@@ -77,11 +91,11 @@ class Post extends Component {
                         <Text style={styles.buttonText}>Me gusta</Text>
                     </TouchableOpacity>
                 }
-                    
 
-                    <TouchableOpacity style={styles.button} onPress={() => { console.log(this.props.postData.id);  this.props.navigation.navigate("Comments",{id:this.props.postData.id } ) }}>
-                        <Text style={styles.buttonText}>Agregar Comentario</Text>
-                    </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button} onPress={() => { console.log(this.props.postData.id); this.props.navigation.navigate("Comments", { id: this.props.postData.id }) }}>
+                    <Text style={styles.buttonText}>Agregar Comentario</Text>
+                </TouchableOpacity>
 
             </View>
 
@@ -91,7 +105,7 @@ class Post extends Component {
 
 
 
-const styles= StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "vertical",
@@ -99,23 +113,23 @@ const styles= StyleSheet.create({
         alignItems: "center",
         height: "100%",
         textAlign: "center"
-        
-      },
-      description:{
+
+    },
+    description: {
         fontSize: 15,
         fontWeight: 'bold',
         marginTop: 20,
         margin: 10,
         color: 'black',
-      },
-      nombre:{
+    },
+    nombre: {
         fontSize: 23,
         fontWeight: 'bold',
         marginTop: 20,
         margin: 10,
         color: 'black',
         textDecorationLine: 'underline',
-      },
+    },
     button: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -124,21 +138,21 @@ const styles= StyleSheet.create({
         borderRadius: 4,
         elevation: 3,
         backgroundColor: 'black',
-      },
+    },
 
-      buttonText: {
+    buttonText: {
         fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',
         letterSpacing: 0.25,
         color: 'white',
-      },
+    },
 
-    photo: {        
+    photo: {
         height: '40vh',
-        width:'40vw',
+        width: '40vw',
         borderRadius: 45,
-        
+
     }
 })
 
