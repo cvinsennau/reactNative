@@ -167,7 +167,8 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center'
     },
     buttonError: {
-        backgroundColor: "blue",
+        backgroundColor: "black",
+        color:"white",
         opacity: 0.4,
         borderRadius: 10,
         alignItems: "center",

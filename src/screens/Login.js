@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         margin: 10
     },
     buttonError: {
-        backgroundColor: "blue",
+        backgroundColor: "black",
         color: "white",
         opacity: 0.4,
         borderRadius: 10,

@@ -61,23 +61,21 @@ class Post extends Component {
                 }
 
                 <View>
+                    <Text style={styles.description}>Descripción: {this.props.postData.data.description}  </Text>
+                    {/*<Text>{this.props.postData.data.userName} </Text>*/}
+                    <Text> Cantidad de Likes: ({this.state.cantidaddelikes}) </Text>
+                    {/*<Text> Fecha de publicacion: {this.props.postData.data.createdAt}</Text>*/}
                     {this.props.postData.data.coments == 0 ?
-
                         <View>
-                            <Text style={styles}> Todavía no hay comentarios. </Text>
+                            <Text style={styles.text}> Todavía no hay comentarios. </Text>
                         </View>
                         :
-
                         <FlatList style={styles.list}
                             data={this.props.postData.data.coments}
                             keyExtractor={oneComment => oneComment.createdAt.toString()}
                             renderItem={({ item }) => <Text >{item.creador}: {item.textoComentario}</Text>}
                         />
                     }
-                    <Text style={styles.description}>descripcion: {this.props.postData.data.description}  </Text>
-                    {/*<Text>{this.props.postData.data.userName} </Text>*/}
-                    <Text> Cantidad de Likes: ({this.state.cantidaddelikes}) </Text>
-                    {/*<Text> Fecha de publicacion: {this.props.postData.data.createdAt}</Text>*/}
                     <Image source={{ uri: this.props.postData.data.image }} style={styles.photo} resizeMode="cover" />
 
                 </View>
@@ -123,8 +121,8 @@ const styles = StyleSheet.create({
     },
     list: {
         paddingHorizontal: 17,
-        backgroundColor:"#E6E6E6",
-      },
+        margin: 10,
+    },
     nombre: {
         fontSize: 23,
         fontWeight: 'bold',
@@ -139,10 +137,13 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 32,
         borderRadius: 4,
+        margin: 8,
         elevation: 3,
         backgroundColor: 'black',
     },
-
+    text:{
+        margin: 10,
+    },
     buttonText: {
         fontSize: 16,
         lineHeight: 21,

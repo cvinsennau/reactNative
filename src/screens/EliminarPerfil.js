@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
         margin: 10
     },
     buttonError:{
-        backgroundColor: "blue",
+        backgroundColor: "black",
+        color:"white",
         opacity: 0.4,
         borderRadius: 10,
         alignItems: "center",
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
         margin: 10
     },
     button:{
-        backgroundColor: "blue",
+        backgroundColor: "black",
         borderRadius: 10,
         color:"white",
         textAlign: "center",

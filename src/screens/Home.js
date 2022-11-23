@@ -14,7 +14,7 @@ class Home extends Component {
     //Me traigo los posteo de la db 
     componentDidMount() {
         
-        db.collection('posts').onSnapshot( //es un metodo que tengo de firebase que me recupera todos los registros de una coleccion 
+        db.collection('posts').orderBy('createdAt','desc').onSnapshot( //es un metodo que tengo de firebase que me recupera todos los registros de una coleccion 
             docs => {//todos los posteos 
                 //console.log(docs);
                 let posts = [];

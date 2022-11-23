@@ -51,58 +51,50 @@ class PerfilAjeno extends Component {
 
         return (
             <View style={styles.container}>
+                
                 <Text style={styles.title}>Be Fake.</Text>
 
                 <TouchableOpacity style={styles.button} onPress = {() => this.back()} >
                     <Text style={styles.buttonText}>Volver a Home</Text>
                 </TouchableOpacity> 
 
-            <View>
-
-                {this.state.usuario.photo == '' ?
-                    <Image
-                        style={styles.profilePhoto} 
-                        source={this.state.photo}
-                        resizeMode = 'cover' 
-                    />
-                :
-                <Text>Sin foto de perfil</Text>
-                }
-
-
-                <Text style={styles.userNameText}>{this.state.userName}</Text>
-                <Text>Email: {this.state.email}</Text>
-                <Text>Biografía: {this.state.bio}</Text>
-            </View>
-
-
-                    {/* {
-                        this.state.usuario.foto != '' ?
-                            <Image
-                                source={{ uri: this.state.usuario.foto }}
-                            />
-                            :
-                            <Image
-                                source={require("")}
-                            />
-
-                    } */}
-                    <View>
-
-                    <Text>Cantidad de posteos: {this.state.posts.length} </Text>
-                    <Text>Posteos recientes</Text>
-
-                    {this.state.posts.length >= 1 ?
-                        <FlatList style={styles.list}
-                        data={this.state.posts}
-                        keyExtractor={ onePost => onePost.id.toString()}
-                        renderItem={ ({item}) => <Post postData={item} navigation={this.props.navigation} />}
-                    />
+                <View style={styles.subContainer}>
+                    {this.state.usuario.photo == '' ?
+                        <Image
+                            style={styles.profilePhoto} 
+                            source={this.state.photo}
+                            resizeMode = 'cover' 
+                        />
                     :
-                    <Text>Aún no hay publicaciones</Text>
+                        <Image
+                            style={styles.profilePhoto} 
+                            source={require('../../assets/sinFoto.png')}
+                            resizeMode = 'cover' 
+                        />
                     }
 
 
+                    <Text style={styles.userNameText}>{this.state.userName}</Text>
+
+                    
+                </View>
+                    
+                <View>
+                    <Text style={styles.text}>Email: {this.state.email}</Text>
+                    <Text style={styles.text}>Biografía: {this.state.bio}</Text>
+                    <Text style={styles.text}>Listado de {this.state.posts.length} posteos</Text>
+                </View>
+                    
+                    <View>
+                        {this.state.posts.length >= 1 ?
+                            <FlatList style={styles.list}
+                            data={this.state.posts}
+                            keyExtractor={ onePost => onePost.id.toString()}
+                            renderItem={ ({item}) => <Post postData={item} navigation={this.props.navigation} />}
+                        />
+                        :
+                        <Text>Aún no hay publicaciones</Text>
+                        }
                 </View>
 
                 
@@ -113,21 +105,18 @@ class PerfilAjeno extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        overflow: "scroll",
         padding: 10,
         flex: 1
     },
-    titulo: {
-        color:"white",
-        fontFamily: '',
-        fontSize: 15,
-        marginLeft: 10
+    subContainer:{
+        alignItems: 'center'
     },
-    informacion: {
-        fontFamily: '',
-        fontSize: 11,
-        margin: 4,
-        paddingLeft: 12,
-        color: 'white'
+    userNameText: {
+        color: 'black',
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     profilePhoto:{
         height:200,
@@ -135,6 +124,10 @@ const styles = StyleSheet.create({
         borderRadius: 250,
         margin: 10,
         alignItems:'center'    
+    },
+    text:{
+        fontSize: 16,
+        margin: 6,
     },
     button:{
         borderRadius: 10,
@@ -165,9 +158,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 17,
         backgroundColor:"#E6E6E6",
         flex:1,
-      },
-
-
+      }
 
 });
 export default PerfilAjeno;

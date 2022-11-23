@@ -97,7 +97,7 @@ class Search extends Component {
                 <View>
                     {
                         this.state.resultsOfSearch.length === 0 && !this.init ?
-                            <Text> Busqueda vacia </Text>
+                            <Text> Búsqueda vacia </Text>
                             :
                             <FlatList style={styles.list}
                                 data={this.state.resultsOfSearch}

@@ -54,29 +54,12 @@ class Profile extends Component {
     };
 
 
-    //Editar data del perfil
-    // updateData(){
-    //     db.collection('users').where('owner', '==', auth.currentUser.email)
-    //     .doc(key)
-    //     .update({
-    //         userName: userName,
-    //         bio: bio,
-    //     })
-    //     .then(() => {
-    //         this.props.navigation.navigate('Profile')
-    //     })
-    // }
-
-
-
-    //Logout
     logout() {
         auth.signOut()
             .then(() => {
                 this.props.navigation.navigate('Login')
             })
     }
-
 
     eliminarPerfil() {
         this.props.navigation.navigate('EliminarPerfil')
@@ -90,16 +73,14 @@ class Profile extends Component {
         return (
 
             <View style={styles.container}>
+
                 <Text style={styles.title}>Be Fake.</Text>
 
                 <TouchableOpacity style={styles.button} onPress={() => this.back()} >
                     <Text style={styles.buttonText}>Volver a Home</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.userNameText}>{this.state.userName}</Text>
-
-                <View>
-
+                <View style={styles.subContainer}>
                     {this.state.photo != '' ?
                         <Image
                             style={styles.profilePhoto}
@@ -107,38 +88,42 @@ class Profile extends Component {
                             resizeMode='cover'
                         />
                         :
-                        <Text>Sin foto de perfil</Text>
+                        <Image
+                            style={styles.profilePhoto} 
+                            source={require('../../assets/sinFoto.png')}
+                            resizeMode = 'cover' 
+                        />
                     }
-
-                    <Text>Email: {this.state.email}</Text>
-                    <Text>Biografía: {this.state.bio}</Text>
-                    <Text>Cantidad de posteos: {this.state.posts.length} </Text>
-                    <Text>Posteos recientes</Text>
+                    
+                    <Text style={styles.userNameText}>{this.state.userName}</Text>
+                    
                 </View>
+
+                <View>
+                    <Text style={styles.text}>Email: {this.state.email}</Text>
+                    <Text style={styles.text}>Biografía: {this.state.bio}</Text>
+                    <Text style={styles.text}>Listado de {this.state.posts.length} posteos</Text>
+                </View>
+
                 <View>
                     {this.state.posts.length >= 1 ?
                         <FlatList style={styles.list}
                             data={this.state.posts}
                             keyExtractor={onePost => onePost.id.toString()}
-                            renderItem={({ item }) => <Post postData={item} navigation={this.props.navigation} />}
+                            renderItem={({ item }) => <Post postData={item}/>}
                         />
                         :
                         <Text>Aún no hay publicaciones</Text>
                     }
-
                 </View>
 
                 <View>
-                    {/* <TouchableOpacity onPress = {() => this.updateData()}>
-                       <Text>Editar</Text> 
-                    </TouchableOpacity>
-                */}
                     <TouchableOpacity style={styles.button} onPress={() => this.eliminarPerfil(this.state.email)} >
                         <Text style={styles.buttonText}>Borrar perfil</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.button} onPress={() => this.logout()}>
-                        <Text style={styles.buttonText}><MaterialIcons name="logout" size={16} color="black" /> Logout</Text>
+                        <Text style={styles.buttonText}><MaterialIcons name="logout" size={16} color="white" /> Logout</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -152,16 +137,11 @@ class Profile extends Component {
 const styles = StyleSheet.create({
     container: {
         overflow: "scroll",
-        alignItems: 'center',
-        backgroundColor: '#FFF',
-        marginBottom: 10,
-        marginTop: 45,
         flex: 1,
+        padding: 10,
     },
-    
-    title: {
-        fontSize: 20,
-        margin: 10
+    subContainer:{
+        alignItems: 'center'
     },
     userNameText: {
         color: 'black',
@@ -175,6 +155,10 @@ const styles = StyleSheet.create({
         borderRadius: 250,
         margin: 10,
         alignItems: 'center'
+    },
+    text:{
+        fontSize: 16,
+        margin: 6,
     },
     button: {
         borderRadius: 10,
