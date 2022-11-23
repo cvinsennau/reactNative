@@ -69,7 +69,7 @@ class Post extends Component {
                         :
 
                         <FlatList style={styles.list}
-                            data={this.props.postData.data.comments}
+                            data={this.props.postData.data.coments}
                             keyExtractor={oneComment => oneComment.createdAt.toString()}
                             renderItem={({ item }) => <Text >{item.creador}: {item.textoComentario}</Text>}
                         />
@@ -117,11 +117,14 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 15,
-        fontWeight: 'bold',
         marginTop: 20,
         margin: 10,
         color: 'black',
     },
+    list: {
+        paddingHorizontal: 17,
+        backgroundColor:"#E6E6E6",
+      },
     nombre: {
         fontSize: 23,
         fontWeight: 'bold',
@@ -152,6 +155,7 @@ const styles = StyleSheet.create({
         height: '40vh',
         width: '40vw',
         borderRadius: 45,
+        margin:10,
 
     }
 })
