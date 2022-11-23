@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Post from '../components/Post'
+import firebase from "firebase"
 
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -52,7 +53,14 @@ class Profile extends Component {
             }
         )
     };
-
+    eliminarPublicacion(item) {
+        console.log(item, "item a eliminar");
+        
+        db.collection("posts").doc(item.id).delete()
+            .then(() => {
+            })
+            
+    }
 
     logout() {
         auth.signOut()
@@ -89,14 +97,14 @@ class Profile extends Component {
                         />
                         :
                         <Image
-                            style={styles.profilePhoto} 
+                            style={styles.profilePhoto}
                             source={require('../../assets/sinFoto.png')}
-                            resizeMode = 'cover' 
+                            resizeMode='cover'
                         />
                     }
-                    
+
                     <Text style={styles.userNameText}>{this.state.userName}</Text>
-                    
+
                 </View>
 
                 <View>
@@ -110,7 +118,11 @@ class Profile extends Component {
                         <FlatList style={styles.list}
                             data={this.state.posts}
                             keyExtractor={onePost => onePost.id.toString()}
-                            renderItem={({ item }) => <Post postData={item}/>}
+                            renderItem={({ item }) =>
+
+                                <View> <Post postData={item} />  <TouchableOpacity style={styles.button} onPress={() => this.eliminarPublicacion(item)}>
+                                    <Text style={styles.buttonText}>Borrar Publicación</Text>
+                                </TouchableOpacity></View>}
                         />
                         :
                         <Text>Aún no hay publicaciones</Text>
@@ -140,7 +152,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
     },
-    subContainer:{
+    subContainer: {
         alignItems: 'center'
     },
     userNameText: {
@@ -156,7 +168,7 @@ const styles = StyleSheet.create({
         margin: 10,
         alignItems: 'center'
     },
-    text:{
+    text: {
         fontSize: 16,
         margin: 6,
     },
@@ -170,6 +182,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         elevation: 3,
         backgroundColor: 'black',
+        
     },
     buttonText: {
         fontSize: 16,
@@ -187,9 +200,9 @@ const styles = StyleSheet.create({
     },
     list: {
         paddingHorizontal: 17,
-        backgroundColor:"#E6E6E6",
-        flex:1,
-      },
+        backgroundColor: "#E6E6E6",
+        flex: 1,
+    },
 })
 
 export default Profile;

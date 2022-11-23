@@ -71,8 +71,8 @@ class Comments extends Component {
                     {this.state.oneComment == "" ?
                         <Text></Text>
                         :
-                        <TouchableOpacity onPress={() => this.uploadComments(this.state.oneComment)}>
-                            <Text style={styles}>Comentar</Text>
+                        <TouchableOpacity style={styles.button} onPress={() => this.uploadComments(this.state.oneComment)}>
+                            <Text style={styles.buttonText} > Agregar Comentario</Text>
                         </TouchableOpacity>
                     }
 
