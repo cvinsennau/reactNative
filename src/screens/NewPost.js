@@ -85,36 +85,32 @@ class NewPost extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: 'rgb(234,252,255)',
+        flex: 2,
+        backgroundColor: 'dark grey',
         alignItems: 'center',
         justifyContent: 'center'
     },
     titulo: {
 
-        fontSize: 30,
-        margin: 20
+        fontSize: 25,
+        margin: 15
     },
     form: {
-        backgroundColor: 'rgb(94, 171, 194)',
+        backgroundColor: 'light blue',
         borderRadius: 10,
         padding: 15
     },
     campo: {
-        backgroundColor: 'rgb(234,252,255)',
-
+        backgroundColor: 'blue',
         fontSize: 14,
         margin: 8,
         borderRadius: 10,
         textAlign: 'center',
-        color: 'rgb(115, 115, 115)',
         padding: 5
     },
     boton: {
-
-        fontSize: 14,
-        margin: 10,
-        backgroundColor: 'rgb(234,252,255)',
+        margin: 11,
+        fontSize: 15,
         borderRadius: 10,
         textAlign: 'center',
         padding: 5
@@ -124,10 +120,6 @@ const styles = StyleSheet.create({
         fontSize: 10,
         margin: 4,
         textAlign: 'right'
-    },
-    icono: {
-        height: 120,
-        width: 120
     }
 })
 

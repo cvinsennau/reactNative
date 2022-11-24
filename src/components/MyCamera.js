@@ -1,6 +1,5 @@
-// cuando tenga esto lo exporto como camara
 import React, { Component } from 'react';
-import { Camera } from 'expo-camera';
+import { Camera } from 'expo-camera'; //para crear el componente 
 import { storage } from '../firebase/config'; //no es la base de datos, es un baul que tiene tu firebase donde se van a guardar todas mis fotos. dentro de lo que es firebase
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
@@ -10,7 +9,7 @@ class Camara extends Component {
         this.state = {
             allow: false, //al principio la persona no te dio el permiso para usar la camara y sacar la foto
             showCamera: true, //al principio esta en true, listo muestro la camara
-            url: ''//la url que se va a guardar la web de mi foto
+            url: ''//la url que se va a guardar la web de mi foto, la url dentro de mi dispositivo
         }
 
         this.metodosCamara = '' //es un estado que dejo vacio en donde voy a estar ejecutando la accion de capturar y donde voy a guardar la url temporal 
@@ -18,76 +17,55 @@ class Camara extends Component {
 
 
     componentDidMount(){ //en el primer renderizado quiero que me pregunte si se puede activar la camara
-        console.log(Camera, "Camera");
-        Camera.requestCameraPermissionsAsync() // es un componente de react que tiene un metodo que me pide el request
+            Camera.requestCameraPermissionsAsync() // es un componente de react que tiene un metodo que me pide el request
             .then( () => this.setState({
-                allow: true
+                allow: true // lo convertimos en un estado booleano 
             }))
-            .catch( e => console.log(e))
+           
     }
 
-    captura() {
+    captura() { //para capturar creamos el metodo capturar 
         this.metodosCamara.takePictureAsync() //al "this.metodosCamara"  le voy a  agregar el metoodo takePictureAsync, una vez que saco la foto le pido que me traiga la url de mi foto y me dje de mostrar la camara
             .then(foto => {
                 this.setState({
-                    url: foto.uri, // me trae el url de la foro y se la pasa al estado
+                    url: foto.uri, // me trae el url de la foro y se la pasa al estado, es una url temporal interna de la foto 
                     showCamera: false
                 })
             })
-            .catch(e => console.log(e))
     }
 
     aceptar() {
-        fetch(this.state.url)
-            .then(res => res.blob())
+        fetch(this.state.url) // utilice fetch para obtener la foto desde la ubicacion temporal dentro del dispositivo
+            .then(res => res.blob()) //para interpretar la imagen, procesa la foto 
             .then(img => {
-
                 const refStorage = storage.ref(`photos/${Date.now()}.jpg`); //aca es donde se guarda en el storage
                 refStorage.put(img) //pongo mi url adentro del firebase 
-                    .then(() => {
+                    .then(() => { // una vez guardada en firebase, que sea de publico acceso 
                         refStorage.getDownloadURL() //que cada vez que yo quiera acceder a mi imagen yo pueda acceder 
                             .then(url => this.props.onImageUpload(url))//envias el dato de la url a mi posteo y lo guardo con los demas datos 
-                    })
+                    })// aca me la sube al feed 
             })
-            .catch(e => console.log(e))
-    }
-
-    guardar(){
-        fetch(this.state.url)
-         .then(res=>res.blob())
-         .then(image =>{
-           const refStorage=storage.ref(`photos/${Date.now()}.jpg`)
-           refStorage.put(image)
-                .then(()=>{
-                   refStorage.getDownloadURL()
-                        .then(url => {
-                            this.props.onImageUpload(url);
-                         })
-                 })
-         })
-         .catch(e=>console.log(e))
     }
 
     rechazar() {
         this.setState({
-            url: '',
+            url: '', //la url vuelve a estar vacia 
             showCamera: true
         })
     }
 
     render() {
-        return (
-            <View>
-                {
-                    this.state.allow ?
-                        this.state.showCamera ?
+        return ( //view funciona como contenedor 
+            <View> 
+                {this.state.allow ?
+                 this.state.showCamera ?
                             <View style={styles.cameraBody}>
                                 <Camera
-                                    style={styles.cameraBody}
+                                    style={styles.cameraBody} //tenemos que setear el estilo para que se vean bien los botones 
                                     type={Camera.Constants.Type.back} //es la camara que va a aparecer que en este caso es la frontal
                                     ref={metodosCamara => this.metodosCamara = metodosCamara} //gracias al ref voy a saber cual es mi uri
-                                />
-                                <TouchableOpacity style={styles.button} onPress={() => this.captura()}>
+                                /> 
+                                <TouchableOpacity style={styles.button} onPress={() => this.captura()}> 
                                     <Text style={styles.buttonText} >Sacar foto</Text>
                                 </TouchableOpacity>
                             </View>
@@ -99,7 +77,7 @@ class Camara extends Component {
                                     resizeMode='cover'
                                 />
 
-                                <TouchableOpacity style={styles.button} onPress={() => this.guardar()}>
+                                <TouchableOpacity style={styles.button} onPress={() => this.aceptar()}>
                                     <Text style={styles.buttonText}>Aceptar</Text>
                                 </TouchableOpacity>
                                 
@@ -119,31 +97,32 @@ class Camara extends Component {
 }
 const styles = StyleSheet.create({
     cameraBody: {
-        height: '80vh',
-        width: '80vw',
+        height: '60vh',
+        width: '60vw',
     },
+
     button:{
-        borderRadius: 10,
-        margin: 5,
+        borderRadius: 12,
+        margin: 3,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: 'black', 
+        paddingVertical: 2,
+        paddingHorizontal: 15,
+        borderRadius: 5,
+        backgroundColor: 'light blue',
+        elevation: 3, 
     }, 
     buttonText:{
         fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
+        letterSpacing: 0.20,
+        color: 'black',
     },
     preview:
     {
-        height: '80vh',
-        width: '80vw',
+        height: '60vh',
+        width: '60vw',
     },
 })
 
