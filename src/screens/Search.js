@@ -92,7 +92,7 @@ class Search extends Component {
                 </View>
 
                 {/* cancel button, depending on whether the search bar is clicked or not */}
-                {this.state.clicked && (<View> <Button style={styles.Button} title="Cancel" onPress={() => { Keyboard.dismiss(); this.setClicked(false); }}></Button> </View>)}
+                {this.state.clicked && (<View> <Button style={styles.button} title="Cancel" onPress={() => { Keyboard.dismiss(); this.setClicked(false); }}></Button> </View>)}
 
                 <View>
                     {
@@ -155,16 +155,17 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         width: "90%",
     },
-    Button: {
+    button:{
+        borderRadius: 10,
+        margin: 5,
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 12,
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black'
-
-    },
+        backgroundColor: 'black', 
+    }, 
     list: {
         paddingHorizontal: 17,
         backgroundColor:"#E6E6E6",

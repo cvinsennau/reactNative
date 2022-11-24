@@ -68,7 +68,7 @@ class PerfilAjeno extends Component {
                     :
                         <Image
                             style={styles.profilePhoto} 
-                            source={require('../../assets/sinFoto.png')}
+                            source={require('../../assets/SinFotoDePerfil.png')}
                             resizeMode = 'cover' 
                         />
                     }
