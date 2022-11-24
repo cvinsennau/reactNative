@@ -2,18 +2,21 @@ import React, { Component, Dimensions } from 'react';
 import { Text, View, TouchableOpacity, Image, StyleSheet,FlatList } from 'react-native';
 import { auth, db } from '../firebase/config'; //auth componente para autenticar el firebase, chequear si existe un usuario o crear un usuario. db es data base
 import firebase from 'firebase';
+import { FontAwesome  } from '@expo/vector-icons';
 
 class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
             cantidaddelikes: props.postData.data.likes.length,
-            milike: false
+            AmountOfComments: props.postData.data.coments.length,
+            milike: false,
         }
     }
 
     componentDidMount( // quiero ver si el usuario ya likeo la foto o no entonces en el primer renderizado le mando esto
     ) {
+        //console.log(this.props, "props");
         if (this.props.postData.data.likes.includes(auth.currentUser.email)) {
             this.setState({
                 milike: true
@@ -65,6 +68,14 @@ class Post extends Component {
                     {/*<Text>{this.props.postData.data.userName} </Text>*/}
                     <Text> Cantidad de Likes: ({this.state.cantidaddelikes}) </Text>
                     {/*<Text> Fecha de publicacion: {this.props.postData.data.createdAt}</Text>*/}
+
+                    <View >
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", { id: this.props.postData.id })}>
+                        <Text style={styles.text} > Comentarios: {this.state.AmountOfComments} </Text>
+                        </TouchableOpacity>
+                    
+                    </View>
+
                     {this.props.postData.data.coments == 0 ?
                         <View>
                             <Text style={styles.text}> Todavía no hay comentarios. </Text>

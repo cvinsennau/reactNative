@@ -16,8 +16,11 @@ class Comments extends Component {
     }
 
     componentDidMount() {
+        console.log(this.state.PostId, "postId");
         db.collection("posts").doc(this.state.PostId).onSnapshot(
             docs => {
+                console.log(docs.data(), "doc")
+
                 this.setState({
                     comments: docs.data().coments//.campo de firebase creo
                 })
